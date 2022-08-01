@@ -18,6 +18,13 @@ To run this project we will need to:
 A basic architecture diagram
 ![Diagram v1](diagram-v1.png)
 
+### Backend API (v1)
+- POST `/api/v1/movies` - adds movie to index
+
+- PUT `/api/v1/movies/:id` - updates movie in index
+
+- DELETE `/api/v1/movies/:id` - removes movie from index
+
 ## Action Items
 
 #### Setup 
@@ -36,10 +43,14 @@ A basic architecture diagram
 - [ ] Backend
   - [ ] Routes
     - [ ] POST - add movie to index
+      - [x] Create route
+      - [ ] Connect to Algolia
     - [ ] PUT - update movie in index
+      - [x] Create route
+      - [ ] Connect to Algolia
     - [ ] DELETE - removes movie from index
-  - [ ] Error handling
-  - [ ] Logging
+      - [x] Create route
+     - [ ] Connect to Algolia 
 - [ ] Frontend
   - [ ] Search Page
     - [ ] Search Component
@@ -55,6 +66,9 @@ A basic architecture diagram
 - [ ] Versioning
 - [ ] Github files
 - [ ] Benchmarks
+- [ ] Healthcheck
+- [ ] Error catching and proper shutdown
+- [ ] Dedicated logger
 
 #### Strech Goal Feature Work
 - [ ] Backend

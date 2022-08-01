@@ -15,8 +15,8 @@ describe('AppController', () => {
 
   describe('getData', () => {
     it('should return "Welcome to backend!"', () => {
-      const appController = app.get<AppController>(AppController);
-      expect(appController.getData()).toEqual({
+      const controller = app.get<AppController>(AppController);
+      expect(controller.getData()).toEqual({
         message: 'Welcome to backend!',
       });
     });

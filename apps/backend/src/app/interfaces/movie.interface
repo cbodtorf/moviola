@@ -1,0 +1,32 @@
+/**
+ * @description describes a movie with some basic properties
+ * based off of this dataset: https://gist.github.com/praagyajoshi/3a1c652667920924e6e399bf039d339d
+ * 
+ * @example
+ * {
+ *   title: "The Shawshank Redemption",
+ *   alternative_titles: ["En verden udenfor"],
+ *   year: 1994,
+ *   image: "https://image.tmdb.org/t/p/w154/9O7gLzmreU0nGkIB6K3BsJbzvNv.jpg",
+ *   color: "#8C634B",
+ *   score: 9.97764206054169,
+ *   rating: 5,
+ *   actors: ["Tim Robbins"],
+ *   actor_facets: ["https://image.tmdb.org/t/p/w45/tuZCyZVVbHcpvtCgriSp5RRPwMX.jpg|Tim Robbins"],
+ *   genre: ["Drama"],
+ *   objectID: "439817390"
+ * }
+ */
+export interface Movie {
+  title: string;
+  alternative_titles: string[];
+  year: number;
+  image: string;
+  color: string;
+  score: number;
+  rating: number;
+  actors: string[];
+  actor_facets: string[];
+  genre: string[];
+  objectID: string;
+}

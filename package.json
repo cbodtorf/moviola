@@ -7,7 +7,7 @@
     "start:be": "nx serve backend",
     "start:fe": "nx serve frontend",
     "build": "nx build",
-    "test": "nx test --target=test --projects=backend,frontend",
+    "test": "nx run-many --target=test --projects=backend,frontend",
     "e2e:fe": "nx e2e frontend-e2e",
     "test:be": "nx test backend",
     "test:fe": "nx test frontend"
