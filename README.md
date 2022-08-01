@@ -10,7 +10,8 @@ To run this project we will need to:
 
 1. `yarn` to install dependencies
 2. `yarn start` to run our dev servers
-3. Open a browser and navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+3. Open a browser and navigate to `http://localhost:4200`. The app will automatically reload if you change any of the source files.
+4. The backend can be accessed at `http://localhost:3333/api` or proxied through the frontend with this endpoint: `http://localhost:4200/api`.
 
 ## Design
 
@@ -26,7 +27,8 @@ A basic architecture diagram
 - [x] Readme
 - [ ] Update Next.js app to fit our needs
   - [ ] Remove unneeded demo oriented code
-- [ ] Set up new Node app for backend
+- [x] Set up new Node app for backend
+  - [x] Set up proxy for frontend app
 - [ ] Set up Algolia account for app
   - [ ] Index seed data
 
@@ -75,4 +77,10 @@ npx create-nx-workspace moviola \
   --preset=next \
   --style=scss \
   --nx-cloud
+```
+
+- This NX command was used to scaffold the backend project that configures a proxy to our frontend project:
+
+```sh
+yarn nx generate @nrwl/nest:application backend --frontendProject demo
 ```
