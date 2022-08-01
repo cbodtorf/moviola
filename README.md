@@ -25,8 +25,8 @@ A basic architecture diagram
 - [x] Basic Architecture Diagram
 - [x] Scaffold Monorepo
 - [x] Readme
-- [ ] Update Next.js app to fit our needs
-  - [ ] Remove unneeded demo oriented code
+- [x] Update Next.js app to fit our needs
+  - [x] Remove unneeded demo oriented code (rename to frontend)
 - [x] Set up new Node app for backend
   - [x] Set up proxy for frontend app
 - [ ] Set up Algolia account for app
@@ -73,7 +73,7 @@ A basic architecture diagram
 
 ```sh
 npx create-nx-workspace moviola \
-  --appName=demo \
+  --appName=frontend \
   --preset=next \
   --style=scss \
   --nx-cloud
@@ -82,5 +82,5 @@ npx create-nx-workspace moviola \
 - This NX command was used to scaffold the backend project that configures a proxy to our frontend project:
 
 ```sh
-yarn nx generate @nrwl/nest:application backend --frontendProject demo
+yarn nx generate @nrwl/nest:application backend --frontendProject frontend
 ```

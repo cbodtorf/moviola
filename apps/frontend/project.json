@@ -1,6 +1,6 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/demo",
+  "sourceRoot": "apps/frontend",
   "projectType": "application",
   "targets": {
     "build": {
@@ -8,12 +8,12 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "root": "apps/demo",
-        "outputPath": "dist/apps/demo"
+        "root": "apps/frontend",
+        "outputPath": "dist/apps/frontend"
       },
       "configurations": {
         "development": {
-          "outputPath": "tmp/apps/demo"
+          "outputPath": "tmp/apps/frontend"
         },
         "production": {}
       }
@@ -22,17 +22,17 @@
       "executor": "@nrwl/next:server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "demo:build",
+        "buildTarget": "frontend:build",
         "dev": true,
-        "proxyConfig": "apps/demo/proxy.conf.json"
+        "proxyConfig": "apps/frontend/proxy.conf.json"
       },
       "configurations": {
         "development": {
-          "buildTarget": "demo:build:development",
+          "buildTarget": "frontend:build:development",
           "dev": true
         },
         "production": {
-          "buildTarget": "demo:build:production",
+          "buildTarget": "frontend:build:production",
           "dev": false
         }
       }
@@ -40,14 +40,14 @@
     "export": {
       "executor": "@nrwl/next:export",
       "options": {
-        "buildTarget": "demo:build:production"
+        "buildTarget": "frontend:build:production"
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/demo"],
+      "outputs": ["coverage/apps/frontend"],
       "options": {
-        "jestConfig": "apps/demo/jest.config.ts",
+        "jestConfig": "apps/frontend/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -55,7 +55,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/demo/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["apps/frontend/**/*.{ts,tsx,js,jsx}"]
       }
     }
   },

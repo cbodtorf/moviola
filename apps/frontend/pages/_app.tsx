@@ -6,7 +6,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Welcome to demo!</title>
+        <title>Welcome to Moviola!</title>
       </Head>
       <main className="app">
         <Component {...pageProps} />
