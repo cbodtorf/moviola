@@ -8,8 +8,8 @@ The application is a set of micro-services including a front-end SPA and a back-
 ## Get Started
 To run this project we will need to:
 
-1. `npm ci` to install dependencies
-2. `npm run start` to run our dev servers
+1. `yarn` to install dependencies
+2. `yarn start` to run our dev servers
 3. Open a browser and navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
 
 ## Design
