@@ -6,6 +6,13 @@ Moviola is a central hub for movie fanatics, allowing users to search for films 
 The application is a set of micro-services including a front-end SPA and a back-end server, both with the ability to interact with our search platform of choice.
 
 ## Get Started
+
+### Prerequisites
+1. Create an Algolia Application and an Algolia Index
+2. Copy the file .env.example and rename it to .env
+3. Set the environment variables `ALGOLIA_APP_ID`, `ALGOLIA_ADMIN_API_KEY`, `ALGOLIA_PUBLIC_API_KEY` and `ALGOLIA_INDEX_NAME` in the .env file. You can obtain those from the Algolia Dashboard.
+
+### Local Development
 To run this project we will need to:
 
 1. `yarn` to install dependencies
@@ -36,21 +43,22 @@ A basic architecture diagram
   - [x] Remove unneeded demo oriented code (rename to frontend)
 - [x] Set up new Node app for backend
   - [x] Set up proxy for frontend app
-- [ ] Set up Algolia account for app
-  - [ ] Index seed data
+- [x] Set up Algolia account for app
+  - [x] Index seed data
 
 #### Feature Work
-- [ ] Backend
-  - [ ] Routes
-    - [ ] POST - add movie to index
+- [x] Backend
+  - [x] Algolia Provider
+  - [x] Routes
+    - [x] POST - add movie to index
       - [x] Create route
-      - [ ] Connect to Algolia
-    - [ ] PUT - update movie in index
+      - [x] Connect to Algolia
+    - [x] PUT - update movie in index
       - [x] Create route
-      - [ ] Connect to Algolia
-    - [ ] DELETE - removes movie from index
+      - [x] Connect to Algolia
+    - [x] DELETE - removes movie from index
       - [x] Create route
-     - [ ] Connect to Algolia 
+     - [x] Connect to Algolia 
 - [ ] Frontend
   - [ ] Search Page
     - [ ] Search Component
@@ -63,12 +71,12 @@ A basic architecture diagram
 
 #### Production Readiness
 - [ ] Deployment Pipeline
-- [ ] Versioning
+- [x] Versioning
 - [ ] Github files
 - [ ] Benchmarks
-- [ ] Healthcheck
-- [ ] Error catching and proper shutdown
-- [ ] Dedicated logger
+- [x] Healthcheck
+- [x] Error catching and proper shutdown
+- [x] Dedicated logger
 
 #### Strech Goal Feature Work
 - [ ] Backend
@@ -96,5 +104,6 @@ npx create-nx-workspace moviola \
 - This NX command was used to scaffold the backend project that configures a proxy to our frontend project:
 
 ```sh
-yarn nx generate @nrwl/nest:application backend --frontendProject frontend
+yarn nx generate @nrwl/express:application backend --frontendProject frontend
 ```
+* Express was removed in favor of Fastify
