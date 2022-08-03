@@ -75,16 +75,16 @@ pre {
   color: rgba(55, 65, 81, 1);
   width: 100%;
 }
-#welcome {
+#welcome, #search {
   margin-top: 2.5rem;
 }
-#welcome h1 {
+#welcome h1, #search h1 {
   font-size: 3rem;
   font-weight: 500;
   letter-spacing: -0.025em;
   line-height: 1;
 }
-#welcome span {
+#welcome span, #search span {
   display: block;
   font-size: 1.875rem;
   font-weight: 300;

@@ -1,0 +1,23 @@
+.page {
+}
+
+.search-input {
+  margin-top: 1em;
+  
+  input {
+    width: 100%;
+    font-size: 1.5em;
+    line-height: 2em;
+    padding: .5em;
+    padding-left: 2em;
+  }
+
+  &::before {
+    content: '🔎';
+    position: absolute;
+    font-size: 1.5em;
+    line-height: 2em;
+    margin: 0.5em;
+  }
+}
+

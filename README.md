@@ -62,13 +62,21 @@ A basic architecture diagram
   - [ ] Use :uuid for PUT/DELETE url param
   - [ ] Update response to be uuid
 - [ ] Frontend
-  - [ ] Search Page
+  - [x] Search Page
     - [ ] Search Component
+      - [ ] Styling
+      - [ ] Logic/Hooks
       - [ ] Powered by Algolia
     - [ ] Results Component
+      - [ ] Styling
+      - [ ] Logic/Hooks
     - [ ] Result Component
+      - [ ] Styling
+      - [ ] Logic/Hooks
       - [ ] Delete action
     - [ ] Form Component
+      - [ ] Styling
+      - [ ] Logic/Hooks
       - Update/Add actions
 
 #### Production Readiness
@@ -95,6 +103,7 @@ A basic architecture diagram
   - [ ] Users
   - [ ] Authenticated Routes
 - [ ] Frontend
+  - [ ] Skeleton Component Loading States
   - [ ] Landing Page
   - [ ] Login Page
   - [ ] Account Page
