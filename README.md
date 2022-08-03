@@ -59,6 +59,8 @@ A basic architecture diagram
     - [x] DELETE - removes movie from index
       - [x] Create route
      - [x] Connect to Algolia 
+  - [ ] Use :uuid for PUT/DELETE url param
+  - [ ] Update response to be uuid
 - [ ] Frontend
   - [ ] Search Page
     - [ ] Search Component
@@ -72,11 +74,21 @@ A basic architecture diagram
 #### Production Readiness
 - [ ] Deployment Pipeline
 - [x] Versioning
-- [ ] Github files
 - [ ] Benchmarks
 - [x] Healthcheck
 - [x] Error catching and proper shutdown
 - [x] Dedicated logger
+- [ ] Swagger Docs
+
+#### Developer Experience
+- [ ] Better Readme docs
+  - [ ] File structure
+  - [ ] Detailed service descriptions
+- [ ] Github files
+- [ ] Precomit/Prepush hooks
+  - [ ] Formatting
+  - [ ] Linting
+  - [ ] Testing
 
 #### Strech Goal Feature Work
 - [ ] Backend
@@ -88,6 +100,7 @@ A basic architecture diagram
   - [ ] Account Page
 - [ ] Analytics
 - [ ] Styling
+- [ ] Containerize
 
 ## History
 
