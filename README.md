@@ -9,8 +9,15 @@ The application is a set of micro-services including a front-end SPA and a back-
 
 ### Prerequisites
 1. Create an Algolia Application and an Algolia Index
-2. Copy the file .env.example and rename it to .env
-3. Set the environment variables `ALGOLIA_APP_ID`, `ALGOLIA_ADMIN_API_KEY`, `ALGOLIA_PUBLIC_API_KEY` and `ALGOLIA_INDEX_NAME` in the .env file. You can obtain those from the Algolia Dashboard.
+
+#### Environment
+We have shared `./.env.example` file at the root with environment variables that
+will be shared between the *frontend* and *backend* applications.
+
+There is also a `./apps/backend/.env.exampple` file with sensitive environment variables specific to the backend application. We don't want to expose these to the frontend.
+
+1. Copy each `.env.example` and rename it to `.env`
+2. Set the environment variables `NX_ALGOLIA_APP_ID`, `NX_ALGOLIA_ADMIN_API_KEY`, `NX_ALGOLIA_PUBLIC_API_KEY` and `NX_ALGOLIA_INDEX_NAME` in the .env file. You can obtain those from the Algolia Dashboard.
 
 ### Local Development
 To run this project we will need to:
@@ -19,6 +26,27 @@ To run this project we will need to:
 2. `yarn start` to run our dev servers
 3. Open a browser and navigate to `http://localhost:4200`. The app will automatically reload if you change any of the source files.
 4. The backend can be accessed at `http://localhost:3333/api` or proxied through the frontend with this endpoint: `http://localhost:4200/api`.
+
+### Production Build
+There are few scripts set up depending on what you are trying to build.
+
+| script             | env         | apps              |
+|--------------------|-------------|-------------------|
+| yarn build:prod    | production  | backend, frontend |
+| yarn build:be:prod | production  | backend           |
+| yarn build:fe:prod | production  | frontend          |
+
+
+### Run production build locally
+Here is how we can run these builds locally.
+
+***Note** that the `frontend` defaults to port `3000` with a production build.
+
+| script             | env         | apps              |
+|--------------------|-------------|-------------------|
+| yarn start:prod    | production  | backend, frontend |
+| yarn start:be:prod | production  | backend           |
+| yarn start:fe:prod | production  | frontend          |
 
 ## Design
 
