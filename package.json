@@ -21,6 +21,7 @@
     "next": "12.2.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-instantsearch-hooks-web": "^6.30.3",
     "reflect-metadata": "^0.1.13",
     "regenerator-runtime": "0.13.7",
     "rxjs": "^7.0.0",

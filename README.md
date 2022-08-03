@@ -99,6 +99,8 @@ A basic architecture diagram
   - [ ] Testing
 
 #### Strech Goal Feature Work
+- [ ] Devops
+  - [ ] Containerize
 - [ ] Backend
   - [ ] Users
   - [ ] Authenticated Routes
@@ -107,9 +109,9 @@ A basic architecture diagram
   - [ ] Landing Page
   - [ ] Login Page
   - [ ] Account Page
-- [ ] Analytics
-- [ ] Styling
-- [ ] Containerize
+  - [ ] SEO
+  - [ ] Analytics
+  - [ ] Custom Styling
 
 ## History
 
