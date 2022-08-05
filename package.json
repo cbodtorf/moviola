@@ -33,6 +33,10 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
+    "@chakra-ui/icons": "^2.0.6",
+    "@chakra-ui/react": "^2.2.6",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
     "@nrwl/cli": "14.5.1",
     "@nrwl/cypress": "14.5.1",
     "@nrwl/eslint-plugin-nx": "14.5.1",
@@ -67,6 +71,7 @@
     "eslint-plugin-react-hooks": "4.6.0",
     "fastify-custom-healthcheck": "^3.0.1",
     "fastify-plugin": "^4.0.0",
+    "framer-motion": "^6",
     "jest": "27.5.1",
     "nx": "14.5.1",
     "prettier": "^2.6.2",

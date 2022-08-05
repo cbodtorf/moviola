@@ -1,6 +1,8 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { ChakraProvider } from '@chakra-ui/react'
 import './styles.css';
+
 
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
@@ -8,9 +10,11 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Welcome to Moviola!</title>
       </Head>
-      <main className="app">
-        <Component {...pageProps} />
-      </main>
+      <ChakraProvider>
+        <main className="app">
+          <Component {...pageProps} />
+        </main>
+      </ChakraProvider>
     </>
   );
 }
