@@ -74,7 +74,7 @@ A basic architecture diagram
 - [x] Set up Algolia account for app
   - [x] Index seed data
 
-#### Feature Work
+#### v1 Feature Work
 - [x] Backend
   - [x] Algolia Provider
   - [x] Routes
@@ -110,6 +110,7 @@ A basic architecture diagram
 #### Production Readiness
 - [ ] Deployment Pipeline
 - [x] Versioning
+- [ ] Rate Limit
 - [ ] Benchmarks
 - [x] Healthcheck
 - [x] Error catching and proper shutdown
@@ -126,12 +127,13 @@ A basic architecture diagram
   - [ ] Linting
   - [ ] Testing
 
-#### Strech Goal Feature Work
+#### v2 Feature Work
 - [ ] Devops
   - [ ] Containerize
 - [ ] Backend
   - [ ] Users
   - [ ] Authenticated Routes
+  - [ ] Add traditional DB before indexing to Algolia
 - [ ] Frontend
   - [ ] Skeleton Component Loading States
   - [ ] Landing Page
@@ -140,6 +142,7 @@ A basic architecture diagram
   - [ ] SEO
   - [ ] Analytics
   - [ ] Custom Styling
+
 
 ## History
 

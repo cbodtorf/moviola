@@ -1,3 +1,4 @@
+import { Logger } from '@moviola/logger';
 import { SearchIndex } from 'algoliasearch';
 import {
   FastifyInstance,
@@ -36,19 +37,35 @@ export const movies = (
  */
 export async function addHandler(req, reply: FastifyReply) {
   const algolia: SearchIndex = this.algoliaService.index;
+  const log: Logger = this.logger;
   
   try {
-    const res = await algolia.saveObject(
-      req.body.movie
-    );
+    log.info({ ...req }, `Adding new item to ${algolia.indexName}`);
 
-    return reply.code(204).send({
+    // TODO: (V2) generate our own uuid, and save items in our own database before indexing to algolia.
+    const res = await algolia.saveObject(req.body.movie, {
+      autoGenerateObjectIDIfNotExist: true
+    });
+
+    reply.code(202).send({
       ...res,
       success: true
     });
   } catch (error) {
-    req.log.error(error);
-    return reply.send(500);
+    // TODO: handle validation errors
+    log.error(error, 'Unknown Error');
+
+    let message = 'Unknown Server Error';
+    let code = 500;
+
+    if (error?.name === 'MissingObjectIDError') {
+      code = 400;
+      message = error.message;
+    }
+
+    reply.code(code).send({
+      message 
+    });
   }
 }
 
@@ -61,21 +78,31 @@ export async function addHandler(req, reply: FastifyReply) {
  */
 export async function updateHandler(req, reply: FastifyReply) {
   const algolia: SearchIndex = this.algoliaService.index;
+  const log: Logger = this.logger;
 
   try {
     const { id } = req.params;
+
+    log.info({ body: req.body, id }, `Updating item to ${algolia.indexName}`);
+
     const res = await algolia.partialUpdateObject({
       ...req.body.movie,
       objectID: id
+    }, {
+      createIfNotExists: false
     });
 
-    return reply.code(204).send({
+    log.info({ res }, `Updated item to ${algolia.indexName}`);
+
+    reply.code(202).send({
       ...res,
       success: true
     });
   } catch (error) {
-    req.log.error(error);
-    return reply.send(500);
+    // TODO: handle validation errors
+    // TODO: handle algolia errors
+    log.error(error);
+    reply.send(500);
   }
 }
 
@@ -88,17 +115,23 @@ export async function updateHandler(req, reply: FastifyReply) {
  */
 export async function removeHandler(req, reply: FastifyReply) {
   const algolia: SearchIndex = this.algoliaService.index;
+  const log: Logger = this.logger;
 
   try {
     const { id } = req.params;
+
+    log.info({ id }, `Deleting item to ${algolia.indexName}`);
+
     const res = await algolia.deleteObject(id);
 
-    return reply.code(204).send({
+    reply.code(202).send({
       ...res,
       success: true
     });
   } catch (error) {
-    req.log.error(error);
-    return reply.send(500);
+    // TODO: handle validation errors
+    // TODO: handle algolia errors
+    log.error(error);
+    reply.send(500);
   }
 }
