@@ -31,8 +31,7 @@
   "lint-staged": {
     "{apps,libs}/**/*.{ts,json,md,scss,html}": [
       "yarn run affected:lint  -- --uncommitted --parallel -- --fix",
-      "yarn run format:write -- --uncommitted",
-      "git add"
+      "yarn run format:write -- --uncommitted"
     ]
   },
   "private": true,
