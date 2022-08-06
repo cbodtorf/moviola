@@ -44,6 +44,7 @@ export default function build(opts: Record<string, unknown> = {}) {
     },
   });
 
+  // Register routes for frontend
   app.register(routes, { prefix: `/api` });
 
   return app;
