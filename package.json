@@ -19,7 +19,18 @@
     "test:lib": "nx test util-schemas",
     "lint": "nx run-many --target=lint --projects=backend,frontend",
     "lint:be": "nx lint backend",
-    "lint:fe": "nx lint frontend"
+    "lint:fe": "nx lint frontend",
+    "precommit": "eslint src/**/*.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json,md,ts}": [
+      "yarn format --uncommitted"
+    ]
   },
   "private": true,
   "dependencies": {
@@ -78,7 +89,9 @@
     "fastify-yup-schema": "^1.0.4",
     "formik": "^2.2.9",
     "framer-motion": "^6",
+    "husky": "^8.0.1",
     "jest": "27.5.1",
+    "lint-staged": "^13.0.3",
     "match-sorter": "^6.3.1",
     "nx": "14.5.1",
     "prettier": "^2.6.2",

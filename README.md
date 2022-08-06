@@ -132,8 +132,8 @@ A basic architecture diagram
   - [ ] Detailed service descriptions
 - [ ] Github files
 - [ ] Precomit/Prepush hooks
-  - [ ] Formatting
-  - [ ] Linting
+  - [x] Formatting
+  - [x] Linting
   - [ ] Testing
 
 #### v2 Feature Work
