@@ -28,8 +28,10 @@
     }
   },
   "lint-staged": {
-    "*.{js,json,md,ts}": [
-      "yarn format --uncommitted"
+    "{apps,libs}/**/*.{ts,json,md,scss,html}": [
+      "yarn run affected:lint  -- --uncommitted --parallel -- --fix",
+      "yarn run format:write -- --uncommitted",
+      "git add"
     ]
   },
   "private": true,
