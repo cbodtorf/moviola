@@ -102,11 +102,17 @@ A basic architecture diagram
       - [ ] Add highlights
       - [X] Styling
       - [X] Logic/Hooks
-      - [ ] Delete action
-    - [ ] Form Component
-      - [ ] Styling
-      - [ ] Logic/Hooks
-    - Update/Add actions
+      - [X] Delete action
+    - [X] Form Component
+      - [X] Styling
+      - [X] Logic/Hooks
+      - [ ] Improve basic validation
+  - [ ] Cleanup
+    - [X] Remove Action Pages that were for testing
+    - [X] Remove Unused imports
+    - [X] Linting/Formatting
+    - [X] Remove landing page (make `/search` the route)
+    - [X] Remove scaffolding styles
 
 #### Production Readiness
 - [ ] Deployment Pipeline
@@ -142,7 +148,6 @@ A basic architecture diagram
   - [ ] Account Page
   - [ ] SEO
   - [ ] Analytics
-  - [ ] Custom Styling
 
 
 ## History

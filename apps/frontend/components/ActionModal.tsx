@@ -15,17 +15,35 @@ import {
   Tag,
   TagLabel,
   TagCloseButton,
-  useToast
+  useToast,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Formik, Form, Field } from 'formik';
-import { validateTitle, validateImage, validateRating, validateYear } from '../util/validation';
-import ApiClient from "../util/api-client";
+import {
+  validateTitle,
+  validateImage,
+  validateRating,
+  validateYear,
+} from '../util/validation';
+import ApiClient from '../util/api-client';
 import { Autocomplete, Option } from './Autocomplete';
 import { useInstantSearch } from 'react-instantsearch-hooks-web';
 
-const genreList = ['Drama', 'Comedy', 'Thriller', 'Action', 'Adventure', 'Romance', 'Crime', 'Science Fiction', 'Family', 'Fantasy'];
-const movieClient = new ApiClient({ baseURL: 'http://localhost:4200/api/v1/movies' });
+const genreList = [
+  'Drama',
+  'Comedy',
+  'Thriller',
+  'Action',
+  'Adventure',
+  'Romance',
+  'Crime',
+  'Science Fiction',
+  'Family',
+  'Fantasy',
+];
+const movieClient = new ApiClient({
+  baseURL: 'http://localhost:4200/api/v1/movies',
+});
 
 /**
  * @description Modal Element for editing or creating items
@@ -35,29 +53,23 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
   const toast = useToast();
   hit.genre = hit.genre || [];
 
-  const {
-    objectID,
-    title,
-    image,
-    rating,
-    year,
-    genre
-  } = hit;
+  const { objectID, title, image, rating, year, genre } = hit;
 
+  // Add a map for dynamic copy depending on the action
   const actionCopyMap = {
     create: {
       title: 'Create',
       success: 'Created',
       method: 'post',
-      url: '/'
+      url: '/',
     },
     edit: {
       title: 'Edit',
       success: 'Edited',
       method: 'put',
-      url: `/${objectID}`
-    }
-  }
+      url: `/${objectID}`,
+    },
+  };
   const copy = actionCopyMap[action];
 
   async function handleSubmit(values, actions) {
@@ -65,8 +77,8 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
       const res = await movieClient[copy.method](copy.url, {
         movie: {
           ...values,
-          genre: result.map((item) => item.value)
-        }
+          genre: result.map((item) => item.value),
+        },
       });
 
       console.log(res);
@@ -88,25 +100,33 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
     setTimeout(() => {
       actions.setSubmitting(false);
       onClose();
-      window.scrollTo({top: 0, left: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }, 500);
 
+    // Refresh Algolia InstantSearch
     setTimeout(() => {
       refresh();
     }, 5000);
   }
 
+  // Genres need to be in an object stucture for Autocomplete
   function genresToItems(genres: string[]): Option[] {
     return genres.map((genre) => {
       return {
         label: genre,
-        value: genre
-      }
-    })
+        value: genre,
+      };
+    });
   }
   const initialItems = genresToItems(genre);
-  const options = genresToItems(genreList)
+  const options = genresToItems(genreList);
   const [result, setResult] = useState<Option[]>(initialItems);
+
+  // Need a ref to add a submit button outside of Formik Form.
+  const hiddenInnerSubmitFormRef = useRef(null);
+  const handleExternalButtonClick = () => {
+    hiddenInnerSubmitFormRef.current.click();
+  };
 
   return (
     <>
@@ -122,82 +142,99 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
                 image,
                 rating,
                 year,
-                genre
+                genre,
               }}
               onSubmit={handleSubmit}
             >
               {(props) => (
                 <Form>
-                  <Field name='title' validate={validateTitle}>
+                  <Field name="title" validate={validateTitle}>
                     {({ field, form }) => (
-                      <FormControl isInvalid={form.errors.title && form.touched.title}>
+                      <FormControl
+                        isInvalid={form.errors.title && form.touched.title}
+                      >
                         <FormLabel>Title</FormLabel>
-                        <Input {...field} placeholder='title' />
+                        <Input {...field} placeholder="title" />
                         <FormErrorMessage>{form.errors.title}</FormErrorMessage>
                       </FormControl>
                     )}
                   </Field>
 
-                  <Field name='image' validate={validateImage}>
+                  <Field name="image" validate={validateImage}>
                     {({ field, form }) => (
-                      <FormControl isInvalid={form.errors.image && form.touched.image}>
+                      <FormControl
+                        isInvalid={form.errors.image && form.touched.image}
+                      >
                         <FormLabel>Image</FormLabel>
-                        <Input {...field} placeholder='image' />
+                        <Input {...field} placeholder="image" />
                         <FormErrorMessage>{form.errors.image}</FormErrorMessage>
                       </FormControl>
                     )}
                   </Field>
 
-                  <Field name='rating' validate={validateRating}>
+                  <Field name="rating" validate={validateRating}>
                     {({ field, form }) => (
-                      <FormControl isInvalid={form.errors.rating && form.touched.rating}>
+                      <FormControl
+                        isInvalid={form.errors.rating && form.touched.rating}
+                      >
                         <FormLabel>Rating</FormLabel>
-                        <Input {...field} placeholder='rating' />
-                        <FormErrorMessage>{form.errors.rating}</FormErrorMessage>
+                        <Input {...field} placeholder="rating" />
+                        <FormErrorMessage>
+                          {form.errors.rating}
+                        </FormErrorMessage>
                       </FormControl>
                     )}
                   </Field>
 
-                  <Field name='year' validate={validateYear}>
+                  <Field name="year" validate={validateYear}>
                     {({ field, form }) => (
-                      <FormControl isInvalid={form.errors.year && form.touched.year}>
+                      <FormControl
+                        isInvalid={form.errors.year && form.touched.year}
+                      >
                         <FormLabel>Year</FormLabel>
-                        <Input {...field} placeholder='year' />
+                        <Input {...field} placeholder="year" />
                         <FormErrorMessage>{form.errors.year}</FormErrorMessage>
                       </FormControl>
                     )}
                   </Field>
-                  
-                    <Field name='genre'>
-                      {({ field, form }) => (
-                        <FormControl isInvalid={form.errors.genre && form.touched.genre}>
-                          <FormLabel>Genre</FormLabel>
-                          <Box maxW="md">
-                            <Autocomplete
-                              options={options}
-                              result={result}
-                              setResult={(options: Option[]) => {
-                                form.setFieldValue('genre', options);
-                                setResult(options);
-                              }}
-                              placeholder="Choose Genre..."
-                              renderBadge={({label}) => (
-                                <Tag size='md' colorScheme='teal' rounded='full' mx={1} cursor="pointer">
-                                  <TagLabel>{label}</TagLabel>
-                                  <TagCloseButton />
-                                </Tag>
-                              )}
-                            />
-                          </Box>
-                        </FormControl>
-                      )}
-                    </Field>
+
+                  <Field name="genre">
+                    {({ field, form }) => (
+                      <FormControl
+                        isInvalid={form.errors.genre && form.touched.genre}
+                      >
+                        <FormLabel>Genre</FormLabel>
+                        <Box maxW="md">
+                          <Autocomplete
+                            options={options}
+                            result={result}
+                            setResult={(options: Option[]) => {
+                              form.setFieldValue('genre', options);
+                              setResult(options);
+                            }}
+                            placeholder="Choose Genre..."
+                            renderBadge={({ label }) => (
+                              <Tag
+                                size="md"
+                                colorScheme="teal"
+                                rounded="full"
+                                mx={1}
+                                cursor="pointer"
+                              >
+                                <TagLabel>{label}</TagLabel>
+                                <TagCloseButton />
+                              </Tag>
+                            )}
+                          />
+                        </Box>
+                      </FormControl>
+                    )}
+                  </Field>
 
                   <Button
-                    mt={4}
-                    colorScheme='teal'
-                    isLoading={props.isSubmitting}
-                    type='submit'
+                    display="none"
+                    type="submit"
+                    ref={hiddenInnerSubmitFormRef}
                   >
                     Submit
                   </Button>
@@ -206,15 +243,18 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
             </Formik>
           </ModalBody>
 
-          {/* <ModalFooter>
-            <Button colorScheme='teal' mr={3} onClick={onClose}>
-              Close
+          <ModalFooter>
+            <Button
+              colorScheme="teal"
+              mr={3}
+              onClick={handleExternalButtonClick}
+            >
+              Submit
             </Button>
-            <Button variant='ghost'>Secondary Action</Button>
-          </ModalFooter> */}
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </>
-  )
+  );
 }
 export default ActionModal;

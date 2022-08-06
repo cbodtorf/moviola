@@ -4,6 +4,6 @@ export type HttpHeaders = {
 
 export class ApiConfiguration {
   baseURL: string;
-  headers?: Record<string,string>;
+  headers?: Record<string, string>;
   timeout?: number;
 }

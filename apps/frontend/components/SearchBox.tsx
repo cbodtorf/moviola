@@ -1,5 +1,11 @@
 import { useSearchBox, UseSearchBoxProps } from 'react-instantsearch-hooks-web';
-import { InputGroup, Input, InputLeftElement, InputRightElement, Button } from '@chakra-ui/react';
+import {
+  InputGroup,
+  Input,
+  InputLeftElement,
+  InputRightElement,
+  Button,
+} from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 
 /**
@@ -10,26 +16,24 @@ export function SearchBox(props: UseSearchBoxProps) {
   const { query, refine, clear } = useSearchBox(props);
 
   return (
-    <InputGroup size='md' mb='25'>
-      <InputLeftElement
-        pointerEvents='none'
-      >
-        <SearchIcon color='gray.300' />
+    <InputGroup size="md" mb="25">
+      <InputLeftElement pointerEvents="none">
+        <SearchIcon color="gray.300" />
       </InputLeftElement>
       <Input
         value={query}
-        placeholder='Search...'
+        placeholder="Search..."
         onChange={(event) => {
-          console.log('event')
-          refine(event.target.value)
+          console.log('event');
+          refine(event.target.value);
         }}
       />
-      <InputRightElement width='4.5rem'>
-        <Button h='1.75rem' size='sm' onClick={clear} colorScheme='teal'>
+      <InputRightElement width="4.5rem">
+        <Button h="1.75rem" size="sm" onClick={clear} colorScheme="teal">
           Clear
         </Button>
       </InputRightElement>
     </InputGroup>
-  )
+  );
 }
 export default SearchBox;

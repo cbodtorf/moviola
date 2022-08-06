@@ -7,10 +7,12 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   Button,
-  Stack
+  Stack,
 } from '@chakra-ui/react';
-// import { SearchIcon } from '@chakra-ui/icons';
-import { RangeConnectorParams, RangeBoundaries } from 'instantsearch.js/es/connectors/range/connectRange';
+import {
+  RangeConnectorParams,
+  RangeBoundaries,
+} from 'instantsearch.js/es/connectors/range/connectRange';
 import { useState } from 'react';
 
 /**
@@ -18,16 +20,10 @@ import { useState } from 'react';
  * https://www.algolia.com/doc/api-reference/widgets/range-input/react-hooks/#hook
  */
 export function RangeInput(props: RangeConnectorParams) {
-  const {
-    start,
-    range,
-    canRefine,
-    refine,
-    sendEvent,
-  } = useRange(props);
+  const { start, range, refine } = useRange(props);
 
   const [rangeBoundaries, setRangeBoundaries] = useState(start);
-  const handleChange = (value) => setRangeBoundaries(value)
+  const handleChange = (value) => setRangeBoundaries(value);
   const [rangeBoundariesMin, rangeBoundariesMax] = rangeBoundaries;
 
   return (
@@ -36,13 +32,13 @@ export function RangeInput(props: RangeConnectorParams) {
         min={range.min}
         max={range.max}
         value={rangeBoundariesMin}
-        placeholder='Min'
+        placeholder="Min"
         onChange={(value) => {
           const newRangeBoundaries: RangeBoundaries = [
             Number(value),
-            rangeBoundariesMax
-          ]
-          handleChange(newRangeBoundaries)
+            rangeBoundariesMax,
+          ];
+          handleChange(newRangeBoundaries);
         }}
       >
         <NumberInputField />
@@ -58,13 +54,13 @@ export function RangeInput(props: RangeConnectorParams) {
         min={range.min}
         max={range.max}
         value={rangeBoundariesMax}
-        placeholder='Max'
+        placeholder="Max"
         onChange={(value) => {
           const newRangeBoundaries: RangeBoundaries = [
             rangeBoundariesMin,
             Number(value),
-          ]
-          handleChange(newRangeBoundaries)
+          ];
+          handleChange(newRangeBoundaries);
         }}
       >
         <NumberInputField />
@@ -74,12 +70,8 @@ export function RangeInput(props: RangeConnectorParams) {
         </NumberInputStepper>
       </NumberInput>
 
-      <Button
-        onClick={() => refine(rangeBoundaries)}
-      >
-        Go
-      </Button>
+      <Button onClick={() => refine(rangeBoundaries)}>Go</Button>
     </Stack>
   );
 }
-export default RangeInput
+export default RangeInput;

@@ -13,7 +13,13 @@ import {
   ListItem,
 } from '@chakra-ui/react';
 import { matchSorter } from 'match-sorter';
-import { CheckCircleIcon, CloseIcon, SmallCloseIcon, SmallAddIcon, ChevronDownIcon } from '@chakra-ui/icons';
+import {
+  CheckCircleIcon,
+  CloseIcon,
+  SmallCloseIcon,
+  SmallAddIcon,
+  ChevronDownIcon,
+} from '@chakra-ui/icons';
 import mergeRefs from '../util/mergeRefs';
 
 export type Option = {
@@ -79,7 +85,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       renderCreateIcon = defaultCreateIcon,
       ...rest
     }: AutocompleteProps,
-    ref,
+    ref
   ) => {
     const [optionsCopy, setOptionsCopy] = useState<Option[]>(options);
     const [partialResult, setPartialResult] = useState<Option[]>();
@@ -91,11 +97,11 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       if (value) {
         setDisplayOptions(true);
         setPartialResult(
-          matchSorter(optionsCopy, value, { keys: ['label', 'value'] }),
+          matchSorter(optionsCopy, value, { keys: ['label', 'value'] })
         );
         setInputValue(value);
       } else {
-        setPartialResult(optionsCopy)
+        setPartialResult(optionsCopy);
         // setDisplayOptions(false);
       }
     };
@@ -104,7 +110,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       if (result.includes(option)) {
         setResult([
           ...result.filter(
-            (existingOption) => existingOption.value !== option.value,
+            (existingOption) => existingOption.value !== option.value
           ),
         ]);
       } else {
@@ -112,7 +118,9 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       }
     };
 
-    const isOptionSelected = (option: Option) => result.filter((selectedOption) => selectedOption.value === option.value).length > 0;
+    const isOptionSelected = (option: Option) =>
+      result.filter((selectedOption) => selectedOption.value === option.value)
+        .length > 0;
 
     const createOption = () => {
       if (inputValue && allowCreation) {
@@ -160,19 +168,19 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
           </Box>
         )}
 
-        <InputGroup size='md'>
+        <InputGroup size="md">
           <Input
             onChange={(e) => filterOptions(e.currentTarget.value)}
             ref={mergeRefs([inputRef, ref])}
             {...rest}
           />
           <InputRightElement>
-            <ButtonGroup pr='10'>
+            <ButtonGroup pr="10">
               <IconButton
-                size='sm' 
-                bgColor='transparent'
-                color='gray'
-                aria-label='Clear'
+                size="sm"
+                bgColor="transparent"
+                color="gray"
+                aria-label="Clear"
                 icon={<SmallCloseIcon />}
                 onClick={() => {
                   inputRef.current.value = '';
@@ -180,15 +188,15 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
                 }}
               />
               <IconButton
-                size='sm'
-                bgColor='transparent'
-                color='gray'
-                aria-label='Expand List'
+                size="sm"
+                bgColor="transparent"
+                color="gray"
+                aria-label="Expand List"
                 icon={<ChevronDownIcon />}
                 onClick={() => {
-                  displayOptions ?
-                    setDisplayOptions(false) :
-                    setDisplayOptions(true);
+                  displayOptions
+                    ? setDisplayOptions(false)
+                    : setDisplayOptions(true);
                 }}
               />
             </ButtonGroup>
@@ -239,7 +247,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
         )}
       </Box>
     );
-  },
+  }
 );
 export default Autocomplete;
 
@@ -247,5 +255,5 @@ Autocomplete.displayName = 'Autocomplete';
 
 Autocomplete.defaultProps = {
   notFoundText: 'Not found',
-  allowCreation: true
-}
+  allowCreation: true,
+};

@@ -1,31 +1,31 @@
 export function validateTitle(value: string) {
-  let error
+  let error;
   if (!value) {
-    error = 'Title is required'
+    error = 'Title is required';
   }
-  return error
+  return error;
 }
 
 export function validateImage(value: string) {
-  let error
+  let error;
   if (!value) {
-    error = 'Image is required'
+    error = 'Image is required';
   }
-  return error
+  return error;
 }
 
 export function validateRating(value: number) {
-  let error
+  let error;
   if (!value) {
-    error = 'Rating is required'
+    error = 'Rating is required';
   }
-  return error
+  return error;
 }
 
 export function validateYear(value: number) {
-  let error
+  let error;
   if (!value) {
-    error = 'Year is required'
+    error = 'Year is required';
   }
-  return error
+  return error;
 }

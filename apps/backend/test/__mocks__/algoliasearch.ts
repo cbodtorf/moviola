@@ -14,11 +14,11 @@ export const mockAlgoliaIndex = jest.fn().mockReturnValue({
   partialUpdateObject: mockPartialUpdateObject,
   deleteObjects: mockDeleteObjects,
   deleteObject: mockDeleteObject,
-  listApiKeys: mockListApiKeys
+  listApiKeys: mockListApiKeys,
 });
 
 export const mockAlgolia = jest.fn().mockReturnValue({
   initIndex: mockAlgoliaIndex,
 });
 
-export default mockAlgolia
+export default mockAlgolia;

@@ -1,9 +1,9 @@
-import algoliasearch, { SearchClient, SearchIndex } from "algoliasearch";
+import algoliasearch, { SearchClient, SearchIndex } from 'algoliasearch';
 export class AlgoliaService {
   public client: SearchClient;
   public index: SearchIndex;
 
-  constructor (
+  constructor(
     private appId: string,
     private adminKey: string,
     private indexName: string

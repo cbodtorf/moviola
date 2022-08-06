@@ -6,17 +6,19 @@ import {
   AccordionIcon,
   Box,
 } from '@chakra-ui/react';
-// import { AccordionIcon } from '@chakra-ui/icons';
 import { RefinementList } from '../components/RefinementList';
 import RangeInput from './RangeInput';
 
+/**
+ * @description An Accordian component for Specifically for Genre and year.
+ */
 export function RefinementAccordian(props) {
   return (
-    <Accordion {...props} >
+    <Accordion {...props}>
       <AccordionItem>
         <h2>
           <AccordionButton>
-            <Box flex='1' textAlign='left'>
+            <Box flex="1" textAlign="left">
               Genre
             </Box>
             <AccordionIcon />
@@ -30,7 +32,7 @@ export function RefinementAccordian(props) {
       <AccordionItem>
         <h2>
           <AccordionButton>
-            <Box flex='1' textAlign='left'>
+            <Box flex="1" textAlign="left">
               Year
             </Box>
             <AccordionIcon />
@@ -41,6 +43,6 @@ export function RefinementAccordian(props) {
         </AccordionPanel>
       </AccordionItem>
     </Accordion>
-  )
+  );
 }
 export default RefinementAccordian;

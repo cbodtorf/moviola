@@ -6,26 +6,28 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   Button,
-  useToast
-} from '@chakra-ui/react'
+  useToast,
+} from '@chakra-ui/react';
 import { useRef } from 'react';
 import { useInstantSearch } from 'react-instantsearch-hooks-web';
-import ApiClient from "../util/api-client";
+import ApiClient from '../util/api-client';
 
-const movieClient = new ApiClient({ baseURL: 'http://localhost:4200/api/v1/movies' });
+const movieClient = new ApiClient({
+  baseURL: 'http://localhost:4200/api/v1/movies',
+});
 
 type RemoveResponse = {
   success: boolean;
   taskID: number;
-}
+};
 
 /**
  * @description Alert Diaolog for removing items from index
  */
 export function DeleteAlert({ isOpen, onClose, hit }) {
   const { refresh } = useInstantSearch();
-  const toast = useToast()
-  const cancelRef = useRef()
+  const toast = useToast();
+  const cancelRef = useRef();
 
   async function handleDelete() {
     try {
@@ -49,8 +51,8 @@ export function DeleteAlert({ isOpen, onClose, hit }) {
 
     setTimeout(() => {
       onClose();
-      window.scrollTo({top: 0, left: 0, behavior: 'smooth' });
-    }, 500)
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }, 500);
 
     setTimeout(() => {
       refresh();
@@ -66,7 +68,7 @@ export function DeleteAlert({ isOpen, onClose, hit }) {
       >
         <AlertDialogOverlay>
           <AlertDialogContent>
-            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
               Delete Movie
             </AlertDialogHeader>
 
@@ -78,7 +80,7 @@ export function DeleteAlert({ isOpen, onClose, hit }) {
               <Button ref={cancelRef} onClick={onClose}>
                 Cancel
               </Button>
-              <Button colorScheme='red' onClick={handleDelete} ml={3}>
+              <Button colorScheme="red" onClick={handleDelete} ml={3}>
                 Delete
               </Button>
             </AlertDialogFooter>
@@ -86,6 +88,6 @@ export function DeleteAlert({ isOpen, onClose, hit }) {
         </AlertDialogOverlay>
       </AlertDialog>
     </>
-  )
+  );
 }
 export default DeleteAlert;

@@ -10,11 +10,9 @@ export default {
   testEnvironment: 'node',
   transform: {
     // '^.+\\.[tj]s$': 'ts-jest',
-    '^.+\\.(ts|tsx)$': 'ts-jest'
+    '^.+\\.(ts|tsx)$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/apps/backend',
-  testPathIgnorePatterns : [
-    "./test/helper.test.ts"
-  ]
+  testPathIgnorePatterns: ['./test/helper.test.ts'],
 };

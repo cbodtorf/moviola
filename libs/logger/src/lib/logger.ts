@@ -1,36 +1,36 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import pino from 'pino'
+import pino from 'pino';
 
 interface LogFn {
-  <T extends object>(obj: T, msg?: string, ...args: any[]): void
-  (msg: string, ...args: any[]): void
+  <T extends object>(obj: T, msg?: string, ...args: any[]): void;
+  (msg: string, ...args: any[]): void;
 }
 export interface Logger {
-  fatal: LogFn
-  error: LogFn
-  warn: LogFn
-  info: LogFn
-  debug: LogFn
-  trace: LogFn
-  context: Record<string, unknown>
+  fatal: LogFn;
+  error: LogFn;
+  warn: LogFn;
+  info: LogFn;
+  debug: LogFn;
+  trace: LogFn;
+  context: Record<string, unknown>;
 }
 
 export const getLogLevel = (): string => {
   if (process.env.LOG_LEVEL) {
-    return process.env.LOG_LEVEL
+    return process.env.LOG_LEVEL;
   }
 
-  const nodeEnv = process.env.NODE_ENV
+  const nodeEnv = process.env.NODE_ENV;
   if (nodeEnv === 'production') {
-    return 'info'
+    return 'info';
   }
 
   if (nodeEnv === 'development' || nodeEnv === 'local') {
-    return 'debug'
+    return 'debug';
   }
 
-  return 'silent'
-}
+  return 'silent';
+};
 
 export const createLogger = (componentName: string): Logger => {
   const pinoLogger = pino({
@@ -41,11 +41,11 @@ export const createLogger = (componentName: string): Logger => {
       },
     },
     mixin() {
-      return { context: logger.context }
+      return { context: logger.context };
     },
-  })
+  });
 
-  const child = pinoLogger.child({ componentName })
+  const child = pinoLogger.child({ componentName });
   const logger: Logger = {
     fatal: child.fatal.bind(child),
     error: child.error.bind(child),
@@ -54,6 +54,6 @@ export const createLogger = (componentName: string): Logger => {
     debug: child.debug.bind(child),
     trace: child.trace.bind(child),
     context: {},
-  }
-  return logger
-}
+  };
+  return logger;
+};

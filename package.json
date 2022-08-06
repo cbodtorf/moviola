@@ -15,7 +15,10 @@
     "test": "nx run-many --target=test --projects=backend,frontend --parallel=2",
     "e2e:fe": "nx e2e frontend-e2e",
     "test:be": "nx test backend",
-    "test:fe": "nx test frontend"
+    "test:fe": "nx test frontend",
+    "lint": "nx run-many --target=lint --projects=backend,frontend",
+    "lint:be": "nx lint backend",
+    "lint:fe": "nx lint frontend"
   },
   "private": true,
   "dependencies": {
