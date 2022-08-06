@@ -91,21 +91,22 @@ A basic architecture diagram
   - [ ] Update response to be uuid
 - [ ] Frontend
   - [x] Search Page
-    - [ ] Search Component
-      - [ ] Styling
-      - [ ] Logic/Hooks
-      - [ ] Powered by Algolia
-    - [ ] Results Component
-      - [ ] Styling
-      - [ ] Logic/Hooks
-    - [ ] Result Component
-      - [ ] Styling
-      - [ ] Logic/Hooks
+    - [x] Search Component
+      - [X] Styling
+      - [X] Logic/Hooks
+      - [X] Powered by Algolia
+    - [X] Results Component
+      - [X] Styling
+      - [X] Logic/Hooks
+    - [X] Result Component
+      - [ ] Add highlights
+      - [X] Styling
+      - [X] Logic/Hooks
       - [ ] Delete action
     - [ ] Form Component
       - [ ] Styling
       - [ ] Logic/Hooks
-      - Update/Add actions
+    - Update/Add actions
 
 #### Production Readiness
 - [ ] Deployment Pipeline

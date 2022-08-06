@@ -2,13 +2,15 @@ import algoliasearch from 'algoliasearch/lite';
 import {
   InstantSearch,
   Configure,
-  Hits
 } from 'react-instantsearch-hooks-web';
 import { SearchBox as SearchBoxCustom } from '../components/SearchBox';
-import { RefinementList as RefinementListCustom } from '../components/RefinementList';
 import { Pagination as PaginationCustom } from '../components/Pagination';
+import { Hits as HitsCustom } from '../components/Hits';
 import { Hit } from '../components/Hit';
-import styles from './search.module.scss';
+import { RefinementDrawer } from '../components/RefinementDrawer';
+import { Button, Center, Grid, GridItem, Heading, Hide, Stack, Show, useDisclosure } from '@chakra-ui/react';
+import FilterIcon from '../components/FilterIcon';
+import RefinementAccordian from '../components/RefinementAccordian';
 
 export async function getStaticProps() {
   return {
@@ -21,39 +23,63 @@ export async function getStaticProps() {
 }
 
 export function Search(props) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const searchClient = algoliasearch(props.appID, props.apiKey);
 
+  const templateAreaMobile = `"header header"
+                              "main main"
+                              "footer footer"`;
+  const templateAreaDesktop = `"header header"
+                                "nav main"
+                                "nav footer"`;
+
   return (
-    <div className={styles.page}>
-      <div className="wrapper">
-        <div className="container">
-          <div id="search">
-            <h1>
-              <span> Search </span>
+    <InstantSearch searchClient={searchClient} indexName={props.indexName}>
+      <Configure hitsPerPage={8} />
+      <Grid
+        templateAreas={[templateAreaMobile, templateAreaMobile, templateAreaDesktop]}
+        gridTemplateRows={'50px 1fr 30px'}
+        gridTemplateColumns={['1fr', '1fr', '250px 1fr']}
+        h='200px'
+        gap='1'
+        color='blackAlpha.700'
+        fontWeight='bold'
+      >
+        <GridItem p='5' area={'header'}>
+          <Stack direction='row' alignItems='center' spacing={6}>
+            <Heading as='h1' size='xl' noOfLines={1}>
               Moviola 📽️
-            </h1>
-          </div>
+            </Heading>
+          </Stack>
+        </GridItem>
 
-          <InstantSearch searchClient={searchClient} indexName={props.indexName}>
-            <Configure hitsPerPage={8} />
-            <div id="middle-content" className="search-panel">
-              <div className="search-panel__filters">
-                <RefinementListCustom attribute="genre" />
-              </div>
+        <Show above='md'>
+          {/* Desktop Only */}
+          <GridItem p='5' area={'nav'}>
+             <RefinementAccordian allowMultiple allowToggle defaultIndex={[0]}/>
+          </GridItem>
+        </Show>
+        
+        <GridItem p='5' area={'main'}>
+          <SearchBoxCustom />
 
-              <div className="search-panel__results">
-                <SearchBoxCustom />
-                <Hits hitComponent={Hit} />
+          <Hide above='md'>
+            {/* Mobile Only */}
+            <Button leftIcon={<FilterIcon boxSize={2} color='white'/>} size='sm' colorScheme='teal' onClick={onOpen} mb='5'>
+              Refine
+            </Button>
+            <RefinementDrawer isOpen={isOpen} onClose={onClose} />
+          </Hide>
 
-                <div className="pagination">
-                  <PaginationCustom />
-                </div>
-              </div>
-            </div>
-          </InstantSearch>
-        </div>
-      </div>
-    </div>
+          <HitsCustom hitComponent={Hit} />
+        </GridItem>
+        <GridItem p='5' area={'footer'}>
+          <Center pb='10'>
+            <PaginationCustom />
+          </Center>
+        </GridItem>
+      </Grid>
+    </InstantSearch>
   )
 }
 export default Search;

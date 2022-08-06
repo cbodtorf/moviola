@@ -10,7 +10,7 @@ export function SearchBox(props: UseSearchBoxProps) {
   const { query, refine, clear } = useSearchBox(props);
 
   return (
-    <InputGroup size='md'>
+    <InputGroup size='md' mb='25'>
       <InputLeftElement
         pointerEvents='none'
       >

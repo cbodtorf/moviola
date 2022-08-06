@@ -1,7 +1,7 @@
 import { useRefinementList, UseRefinementListProps } from 'react-instantsearch-hooks-web';
 // For whatever reason this type wasn't exported from the hook library?
 import { RefinementListItem } from 'instantsearch.js/es/connectors/refinement-list/connectRefinementList';
-import { Stack, Checkbox, Text } from '@chakra-ui/react';
+import { Badge, Stack, Checkbox, Text } from '@chakra-ui/react';
 
 type ItemsProps = {
   items: RefinementListItem[],
@@ -17,10 +17,12 @@ function Items({ items, refine }: ItemsProps) {
             colorScheme='teal'
             key={`${item.label}-${index}`}
             isChecked={item.isRefined}
-            onChange={(event) => {
-              refine(event.target.value)
+            onChange={() => {
+              refine(item.value)
             }}
-          >{item.label}</Checkbox>
+          >
+            <Badge borderRadius='full' px='2' colorScheme='teal'>{item.label}</Badge>
+          </Checkbox>
         )
       })}
     </>
@@ -48,7 +50,6 @@ export function RefinementList(props: UseRefinementListProps) {
 
   return (
     <div>
-      <Text as='strong' fontSize='md' >Genres:</Text>
       <Stack spacing={1} direction='column'>
         <Items items={items} refine={refine} />
       </Stack>
