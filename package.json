@@ -20,7 +20,8 @@
     "lint": "nx run-many --target=lint --projects=backend,frontend",
     "lint:be": "nx lint backend",
     "lint:fe": "nx lint frontend",
-    "precommit": "eslint src/**/*.js"
+    "prepare": "husky install",
+    "precommit": "lint-staged"
   },
   "husky": {
     "hooks": {
