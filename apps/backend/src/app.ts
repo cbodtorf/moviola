@@ -8,6 +8,7 @@ import { routes } from './routes';
 
 export default function build(opts: Record<string, unknown> = {}) {
   const logger = createLogger('backend-app');
+  // Arbitrary document size
   const MAX_DOCUMENT_SIZE = 32_000_000;
 
   // Production builds will pull appropriate environments
