@@ -4,6 +4,7 @@ import {
   mockPartialUpdateObject,
   mockDeleteObject,
 } from '../__mocks__/algoliasearch';
+import { mockMovie } from '@moviola/util-schemas';
 
 describe('movies', () => {
   const app = buildTestInstance();
@@ -23,7 +24,7 @@ describe('movies', () => {
 
       expect(JSON.parse(res.payload)).toEqual({
         error: 'Bad Request',
-        message: 'body must be object',
+        message: "this must be a `object` type, but the final value was: `null`.\n If \"null\" is intended as an empty value be sure to mark the schema as `.nullable()`",
         statusCode: 400,
       });
     });
@@ -38,9 +39,7 @@ describe('movies', () => {
         method: 'POST',
         url: '/api/v1/movies',
         payload: {
-          movie: {
-            title: 'test',
-          },
+          movie: mockMovie,
         },
       });
 
@@ -69,7 +68,7 @@ describe('movies', () => {
 
       expect(JSON.parse(res.payload)).toEqual({
         error: 'Bad Request',
-        message: 'body must be object',
+        message: "this must be a `object` type, but the final value was: `null`.\n If \"null\" is intended as an empty value be sure to mark the schema as `.nullable()`",
         statusCode: 400,
       });
     });
@@ -84,9 +83,7 @@ describe('movies', () => {
         method: 'PUT',
         url: '/api/v1/movies/123',
         payload: {
-          movie: {
-            title: 'updated test',
-          },
+          movie: mockMovie,
         },
       });
 

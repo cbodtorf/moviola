@@ -1,7 +1,7 @@
-import { Logger } from '@moviola/logger';
+import { Logger } from '@moviola/util-logger';
+import { movieAddFastifySchema, movieUpdateFastifySchema } from '@moviola/util-schemas';
 import { SearchIndex } from 'algoliasearch';
 import { FastifyInstance, FastifyPluginOptions, FastifyReply } from 'fastify';
-import { movieInput } from './schemas';
 
 /**
  * @description Defines some routes for our Movies resource.
@@ -16,8 +16,8 @@ export const movies = (
   _opts: FastifyPluginOptions,
   done: (err?: Error) => void
 ) => {
-  app.post('/', { schema: movieInput }, addHandler);
-  app.put('/:id', { schema: movieInput }, updateHandler);
+  app.post('/', { schema: movieAddFastifySchema }, addHandler);
+  app.put('/:id', { schema: movieUpdateFastifySchema }, updateHandler);
   app.delete('/:id', {}, removeHandler);
 
   done();
@@ -35,7 +35,7 @@ export async function addHandler(req, reply: FastifyReply) {
   const log: Logger = this.logger;
 
   try {
-    log.info({ ...req }, `Adding new item to ${algolia.indexName}`);
+    log.info({ body: req.body }, `Adding new item to ${algolia.indexName}`);
 
     // TODO: (V2) generate our own uuid, and save items in our own database before indexing to algolia.
     const res = await algolia.saveObject(req.body.movie, {

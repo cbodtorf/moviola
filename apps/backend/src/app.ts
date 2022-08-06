@@ -1,6 +1,7 @@
-import { createLogger } from '@moviola/logger';
+import { createLogger } from '@moviola/util-logger';
 import fastify from 'fastify';
 import healthCheck from 'fastify-custom-healthCheck';
+import { fastifyYupSchema } from "fastify-yup-schema";
 import { AlgoliaService } from './algolia/service';
 import { environment } from './environments/environment';
 import { routes } from './routes';
@@ -29,6 +30,9 @@ export default function build(opts: Record<string, unknown> = {}) {
 
   // Add logger
   app.decorate('logger', logger);
+  
+  // Use Yup Schema for validation
+  app.register(fastifyYupSchema);
 
   // Register healthCheck
   app.register(healthCheck, {

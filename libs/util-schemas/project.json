@@ -1,20 +1,20 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/logger/src",
+  "sourceRoot": "libs/util-schemas/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/logger/**/*.ts"]
+        "lintFilePatterns": ["libs/util-schemas/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/logger"],
+      "outputs": ["coverage/libs/util-schemas"],
       "options": {
-        "jestConfig": "libs/logger/jest.config.ts",
+        "jestConfig": "libs/util-schemas/jest.config.ts",
         "passWithNoTests": true
       }
     }

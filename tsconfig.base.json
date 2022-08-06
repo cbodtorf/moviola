@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@moviola/logger": ["libs/logger/src/index.ts"]
+      "@moviola/util-logger": ["libs/util-logger/src/index.ts"],
+      "@moviola/util-schemas": ["libs/util-schemas/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

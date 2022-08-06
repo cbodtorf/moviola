@@ -5,6 +5,7 @@
     "backend": "apps/backend",
     "frontend": "apps/frontend",
     "frontend-e2e": "apps/frontend-e2e",
-    "logger": "libs/logger"
+    "util-logger": "libs/util-logger",
+    "util-schemas": "libs/util-schemas"
   }
 }

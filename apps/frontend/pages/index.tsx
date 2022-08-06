@@ -19,19 +19,16 @@ import {
 import FilterIcon from '../components/FilterIcon';
 import RefinementAccordian from '../components/RefinementAccordian';
 
-export async function getStaticProps() {
-  return {
-    props: {
-      appID: process.env.NX_ALGOLIA_APP_ID,
-      apiKey: process.env.NX_ALGOLIA_PUBLIC_API_KEY,
-      indexName: process.env.NX_ALGOLIA_INDEX_NAME,
-    },
-  };
-}
+export function Search() {
+  // Test environment comes in differently than dev.
+  const algoliaEnv = {
+    appID: process.env.appID || process.env.NX_ALGOLIA_APP_ID || '',
+    apiKey: process.env.apiKey || process.env.NX_ALGOLIA_PUBLIC_API_KEY || '',
+    indexName: process.env.indexName || process.env.NX_ALGOLIA_INDEX_NAME || ''
+  }
 
-export function Search(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const searchClient = algoliasearch(props.appID, props.apiKey);
+  const searchClient = algoliasearch(algoliaEnv.appID, algoliaEnv.apiKey);
 
   const templateAreaMobile = `"header header"
                               "main main"
@@ -41,7 +38,7 @@ export function Search(props) {
                                 "nav footer"`;
 
   return (
-    <InstantSearch searchClient={searchClient} indexName={props.indexName}>
+    <InstantSearch searchClient={searchClient} indexName={algoliaEnv.indexName}>
       <Configure hitsPerPage={8} />
       <Grid
         templateAreas={[

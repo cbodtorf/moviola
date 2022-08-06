@@ -14,7 +14,9 @@ The application is a set of micro-services including a front-end SPA and a back-
 We have shared `./.env.example` file at the root with environment variables that
 will be shared between the *frontend* and *backend* applications.
 
-There is also a `./apps/backend/.env.exampple` file with sensitive environment variables specific to the backend application. We don't want to expose these to the frontend.
+There is also a `./apps/backend/.env.example` file with sensitive environment variables specific to the backend application. We don't want to expose these to the frontend.
+
+You can create a `./apps/frontend/.env.test` file with specific environment variables for testing in case we want to use different credentials.
 
 1. Copy each `.env.example` and rename it to `.env`
 2. Set the environment variables `NX_ALGOLIA_APP_ID`, `NX_ALGOLIA_ADMIN_API_KEY`, `NX_ALGOLIA_PUBLIC_API_KEY` and `NX_ALGOLIA_INDEX_NAME` in the .env file. You can obtain those from the Algolia Dashboard.
@@ -89,7 +91,7 @@ A basic architecture diagram
      - [x] Connect to Algolia 
   - [ ] Use :uuid for PUT/DELETE url param
   - [ ] Update response to be uuid
-- [ ] Frontend
+- [X] Frontend
   - [x] Search Page
     - [x] Search Component
       - [X] Styling
@@ -106,8 +108,8 @@ A basic architecture diagram
     - [X] Form Component
       - [X] Styling
       - [X] Logic/Hooks
-      - [ ] Improve basic validation
-  - [ ] Cleanup
+      - [X] Improve basic validation
+  - [X] Cleanup
     - [X] Remove Action Pages that were for testing
     - [X] Remove Unused imports
     - [X] Linting/Formatting
@@ -168,3 +170,12 @@ npx create-nx-workspace moviola \
 yarn nx generate @nrwl/express:application backend --frontendProject frontend
 ```
 * Express was removed in favor of Fastify
+
+- For our libs we used this command to scaffold logger and schema:
+
+```sh
+yarn nx generate @nrwl/js:lib logger
+```
+```sh
+yarn nx generate @nrwl/js:lib schema
+```

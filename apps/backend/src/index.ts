@@ -1,5 +1,5 @@
 import build from './app';
-import { createLogger } from '@moviola/logger';
+import { createLogger } from '@moviola/util-logger';
 
 const logger = createLogger('backend-service');
 

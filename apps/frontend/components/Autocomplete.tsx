@@ -22,11 +22,7 @@ import {
 } from '@chakra-ui/icons';
 import mergeRefs from '../util/mergeRefs';
 
-export type Option = {
-  [key: string]: unknown;
-  label: string;
-  value: string;
-};
+export type Option = string;
 
 export interface AutocompleteProps extends InputProps {
   allowCreation?: boolean;
@@ -49,7 +45,7 @@ export interface AutocompleteProps extends InputProps {
 }
 
 const defaultRenderCheckIcon = (option: Option) => (
-  <CheckCircleIcon color="teal" data-label={option.label} mr={2} />
+  <CheckCircleIcon color="teal" data-label={option} mr={2} />
 );
 
 const defaultCreateIcon = () => (
@@ -61,7 +57,7 @@ const defaultCreateIcon = () => (
 
 const defaultRenderBadge = (option: Option) => (
   <Badge borderRadius="full" px="2" colorScheme="teal" mx={1} cursor="pointer">
-    {option.label}
+    {option}
     <CloseIcon ml={1} w={2} h={2} mb="4px" />
   </Badge>
 );
@@ -97,7 +93,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       if (value) {
         setDisplayOptions(true);
         setPartialResult(
-          matchSorter(optionsCopy, value, { keys: ['label', 'value'] })
+          matchSorter(optionsCopy, value)
         );
         setInputValue(value);
       } else {
@@ -110,7 +106,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       if (result.includes(option)) {
         setResult([
           ...result.filter(
-            (existingOption) => existingOption.value !== option.value
+            (existingOption) => existingOption !== option
           ),
         ]);
       } else {
@@ -119,15 +115,12 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
     };
 
     const isOptionSelected = (option: Option) =>
-      result.filter((selectedOption) => selectedOption.value === option.value)
+      result.filter((selectedOption) => selectedOption === option)
         .length > 0;
 
     const createOption = () => {
       if (inputValue && allowCreation) {
-        const newOption: Option = {
-          label: inputValue,
-          value: inputValue,
-        };
+        const newOption: Option = inputValue;
         setOptionsCopy([newOption, ...optionsCopy]);
         selectOption(newOption);
         setDisplayOptions(false);
@@ -160,7 +153,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
               <Box
                 display="inline-block"
                 onClick={() => selectOption(option)}
-                key={option.value}
+                key={option}
               >
                 {renderBadge(option)}
               </Box>
@@ -213,7 +206,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
           >
             {partialResult?.map((option) => (
               <ListItem
-                key={option.value}
+                key={option}
                 _hover={{ bg: bgHoverColor || 'gray.100' }}
                 my={1}
                 p={2}
@@ -222,7 +215,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
               >
                 <Flex align="center">
                   {checkIcon(option)}
-                  {option.label}
+                  {option}
                 </Flex>
               </ListItem>
             ))}

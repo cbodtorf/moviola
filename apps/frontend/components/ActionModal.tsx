@@ -12,19 +12,19 @@ import {
   FormLabel,
   FormErrorMessage,
   Input,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
   Tag,
   TagLabel,
   TagCloseButton,
   useToast,
 } from '@chakra-ui/react';
-import { useState, useRef } from 'react';
-import { Formik, Form, Field } from 'formik';
-import {
-  validateTitle,
-  validateImage,
-  validateRating,
-  validateYear,
-} from '../util/validation';
+import { useState } from 'react';
+import { FormikProvider, Field, useFormik } from 'formik';
+import { movieAddSchema, movieUpdateSchema } from '@moviola/util-schemas';
 import ApiClient from '../util/api-client';
 import { Autocomplete, Option } from './Autocomplete';
 import { useInstantSearch } from 'react-instantsearch-hooks-web';
@@ -53,7 +53,7 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
   const toast = useToast();
   hit.genre = hit.genre || [];
 
-  const { objectID, title, image, rating, year, genre } = hit;
+  const { objectID, title, image, rating, score, year, genre } = hit;
 
   // Add a map for dynamic copy depending on the action
   const actionCopyMap = {
@@ -62,22 +62,24 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
       success: 'Created',
       method: 'post',
       url: '/',
+      schema: movieAddSchema
     },
     edit: {
       title: 'Edit',
       success: 'Edited',
       method: 'put',
       url: `/${objectID}`,
+      schema: movieUpdateSchema
     },
   };
   const copy = actionCopyMap[action];
 
+  // Submit Handler
   async function handleSubmit(values, actions) {
     try {
       const res = await movieClient[copy.method](copy.url, {
         movie: {
           ...values,
-          genre: result.map((item) => item.value),
         },
       });
 
@@ -109,23 +111,25 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
     }, 5000);
   }
 
-  // Genres need to be in an object stucture for Autocomplete
-  function genresToItems(genres: string[]): Option[] {
-    return genres.map((genre) => {
-      return {
-        label: genre,
-        value: genre,
-      };
-    });
-  }
-  const initialItems = genresToItems(genre);
-  const options = genresToItems(genreList);
+  const initialItems = [...genre];
+  const options = [...genreList];
   const [result, setResult] = useState<Option[]>(initialItems);
 
-  // Need a ref to add a submit button outside of Formik Form.
-  const hiddenInnerSubmitFormRef = useRef(null);
+  const formik = useFormik({
+    initialValues: {
+      title,
+      image,
+      rating,
+      score,
+      year,
+      genre,
+    },
+    validationSchema: copy.schema,
+    onSubmit: handleSubmit,
+  })
+
   const handleExternalButtonClick = () => {
-    hiddenInnerSubmitFormRef.current.click();
+    formik.submitForm()
   };
 
   return (
@@ -136,117 +140,149 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
           <ModalHeader>{copy.title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Formik
-              initialValues={{
-                title,
-                image,
-                rating,
-                year,
-                genre,
-              }}
-              onSubmit={handleSubmit}
-            >
-              {(props) => (
-                <Form>
-                  <Field name="title" validate={validateTitle}>
-                    {({ field, form }) => (
-                      <FormControl
-                        isInvalid={form.errors.title && form.touched.title}
-                      >
-                        <FormLabel>Title</FormLabel>
-                        <Input {...field} placeholder="title" />
-                        <FormErrorMessage>{form.errors.title}</FormErrorMessage>
-                      </FormControl>
-                    )}
-                  </Field>
 
-                  <Field name="image" validate={validateImage}>
-                    {({ field, form }) => (
-                      <FormControl
-                        isInvalid={form.errors.image && form.touched.image}
-                      >
-                        <FormLabel>Image</FormLabel>
-                        <Input {...field} placeholder="image" />
-                        <FormErrorMessage>{form.errors.image}</FormErrorMessage>
-                      </FormControl>
-                    )}
-                  </Field>
-
-                  <Field name="rating" validate={validateRating}>
-                    {({ field, form }) => (
-                      <FormControl
-                        isInvalid={form.errors.rating && form.touched.rating}
-                      >
-                        <FormLabel>Rating</FormLabel>
-                        <Input {...field} placeholder="rating" />
-                        <FormErrorMessage>
-                          {form.errors.rating}
-                        </FormErrorMessage>
-                      </FormControl>
-                    )}
-                  </Field>
-
-                  <Field name="year" validate={validateYear}>
-                    {({ field, form }) => (
-                      <FormControl
-                        isInvalid={form.errors.year && form.touched.year}
-                      >
-                        <FormLabel>Year</FormLabel>
-                        <Input {...field} placeholder="year" />
-                        <FormErrorMessage>{form.errors.year}</FormErrorMessage>
-                      </FormControl>
-                    )}
-                  </Field>
-
-                  <Field name="genre">
-                    {({ field, form }) => (
-                      <FormControl
-                        isInvalid={form.errors.genre && form.touched.genre}
-                      >
-                        <FormLabel>Genre</FormLabel>
-                        <Box maxW="md">
-                          <Autocomplete
-                            options={options}
-                            result={result}
-                            setResult={(options: Option[]) => {
-                              form.setFieldValue('genre', options);
-                              setResult(options);
-                            }}
-                            placeholder="Choose Genre..."
-                            renderBadge={({ label }) => (
-                              <Tag
-                                size="md"
-                                colorScheme="teal"
-                                rounded="full"
-                                mx={1}
-                                cursor="pointer"
-                              >
-                                <TagLabel>{label}</TagLabel>
-                                <TagCloseButton />
-                              </Tag>
-                            )}
-                          />
-                        </Box>
-                      </FormControl>
-                    )}
-                  </Field>
-
-                  <Button
-                    display="none"
-                    type="submit"
-                    ref={hiddenInnerSubmitFormRef}
+            <FormikProvider value={formik}>
+              <Field name="title">
+                {({ field, form }) => (
+                  <FormControl
+                    isInvalid={form.errors.title && form.touched.title}
                   >
-                    Submit
-                  </Button>
-                </Form>
-              )}
-            </Formik>
+                    <FormLabel>Title</FormLabel>
+                    <Input {...field} placeholder="title" />
+                    <FormErrorMessage>{form.errors.title}</FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+
+              <Field name="image" >
+                {({ field, form }) => (
+                  <FormControl
+                    isInvalid={form.errors.image && form.touched.image}
+                  >
+                    <FormLabel>Image</FormLabel>
+                    <Input {...field} placeholder="image" />
+                    <FormErrorMessage>{form.errors.image}</FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+
+              <Field name="rating" >
+                {({ field, form }) => (
+                  <FormControl
+                    isInvalid={form.errors.rating && form.touched.rating}
+                  >
+                    <FormLabel>Rating</FormLabel>
+                    <NumberInput
+                      {...field}
+                      placeholder="rating"
+                      onChange={(val) =>
+                        form.setFieldValue(field.name, val)
+                      }
+                    >
+                      <NumberInputField />
+                      <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                      </NumberInputStepper>
+                    </NumberInput>
+                    <FormErrorMessage>
+                      {form.errors.rating}
+                    </FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+
+              <Field name="score" >
+                {({ field, form }) => (
+                  <FormControl
+                    isInvalid={form.errors.score && form.touched.score}
+                  >
+                    <FormLabel>Score</FormLabel>
+                    <NumberInput
+                      {...field}
+                      placeholder="score"
+                      onChange={(val) =>
+                        form.setFieldValue(field.name, val)
+                      }
+                    >
+                      <NumberInputField />
+                      <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                      </NumberInputStepper>
+                    </NumberInput>
+                    <FormErrorMessage>
+                      {form.errors.score}
+                    </FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+
+              <Field name="year">
+                {({ field, form }) => (
+                  <FormControl
+                    isInvalid={form.errors.year && form.touched.year}
+                  >
+                    <FormLabel>Year</FormLabel>
+                    <NumberInput
+                      {...field}
+                      placeholder="year"
+                      onChange={(val) =>
+                        form.setFieldValue(field.name, val)
+                      }
+                    >
+                      <NumberInputField />
+                      <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                      </NumberInputStepper>
+                    </NumberInput>
+                    <FormErrorMessage>{form.errors.year}</FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+
+              <Field name="genre">
+                {({ field, form }) => (
+                  <FormControl
+                    isInvalid={form.errors.genre && form.touched.genre}
+                  >
+                    <FormLabel>Genre</FormLabel>
+                    <Box maxW="md">
+                      <Autocomplete
+                        options={options}
+                        result={result}
+                        setResult={(options: Option[]) => {
+                          form.setFieldValue('genre', options);
+                          setResult(options);
+                        }}
+                        placeholder="Choose Genre..."
+                        renderBadge={(option) => (
+                          <Tag
+                            size="md"
+                            colorScheme="teal"
+                            rounded="full"
+                            mx={1}
+                            cursor="pointer"
+                          >
+                            <TagLabel>{option}</TagLabel>
+                            <TagCloseButton />
+                          </Tag>
+                        )}
+                      />
+                    </Box>
+                  </FormControl>
+                )}
+              </Field>
+            </FormikProvider>
+
           </ModalBody>
 
           <ModalFooter>
             <Button
               colorScheme="teal"
               mr={3}
+              disabled={!(formik.isValid && formik.dirty)}
               onClick={handleExternalButtonClick}
             >
               Submit
