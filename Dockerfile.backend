@@ -11,6 +11,6 @@ RUN yarn
 # Copy local code to the container image.
 COPY . ./
 # Build the app
-RUN yarn build:backend --production
+RUN yarn build:be:prod
 # Run the web service on container startup.
 CMD ["node", "./dist/apps/backend/main.js"]
