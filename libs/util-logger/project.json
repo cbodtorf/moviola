@@ -14,7 +14,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/util-logger"],
       "options": {
-        "jestConfig": "libs/logger/jest.config.ts",
+        "jestConfig": "libs/util-logger/jest.config.ts",
         "passWithNoTests": true
       }
     }

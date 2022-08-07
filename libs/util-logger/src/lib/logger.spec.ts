@@ -1,5 +1,5 @@
 import { createLogger, getLogLevel } from './logger';
-import { mockChild } from '../__mocks__/pino.spec';
+import { mockChild } from '../__mocks__/pino';
 
 let oldEnv: NodeJS.ProcessEnv;
 
@@ -8,7 +8,9 @@ describe('logger', () => {
     it('should return a child logger', () => {
       createLogger('test');
 
-      expect(mockChild).toHaveBeenCalled();
+      expect(mockChild).toHaveBeenCalledWith({
+        componentName: 'test'
+      });
     });
   });
 

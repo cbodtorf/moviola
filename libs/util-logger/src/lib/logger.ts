@@ -38,14 +38,15 @@ export const createLogger = (componentName: string): Logger => {
     formatters: {
       level(level) {
         return { level };
-      },
+      }
     },
     mixin() {
       return { context: logger.context };
-    },
+    }
   });
 
   const child = pinoLogger.child({ componentName });
+  console.log('child', child);
   const logger: Logger = {
     fatal: child.fatal.bind(child),
     error: child.error.bind(child),
@@ -53,7 +54,7 @@ export const createLogger = (componentName: string): Logger => {
     info: child.info.bind(child),
     debug: child.debug.bind(child),
     trace: child.trace.bind(child),
-    context: {},
+    context: {}
   };
   return logger;
 };

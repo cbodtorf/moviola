@@ -9,15 +9,15 @@
     "start:prod": "concurrently \"yarn start:be:prod\" \"yarn start:fe:prod\"",
     "start:be:prod": "node ./dist/apps/backend/main.js",
     "start:fe:prod": "cd ./dist/apps/frontend && npx next start",
-    "build:prod": "nx run-many --target=build --prod --projects=backend,frontend",
+    "build:prod": "nx run-many --target=build --prod --projects=backend,frontend,util-schemas,util-logger",
     "build:be:prod": "nx build backend --prod",
     "build:fe:prod": "nx build frontend --prod",
-    "test": "nx run-many --target=test --projects=backend,frontend --parallel=2",
+    "test": "nx run-many --target=test --projects=backend,frontend,util-schemas,util-logger --parallel",
     "e2e:fe": "nx e2e frontend-e2e",
     "test:be": "nx test backend",
     "test:fe": "nx test frontend",
     "test:lib": "nx test util-schemas",
-    "lint": "nx run-many --target=lint --projects=backend,frontend",
+    "lint": "nx run-many --target=lint --projects=backend,frontend,util-schemas,util-logger",
     "lint:be": "nx lint backend",
     "lint:fe": "nx lint frontend",
     "prepare": "husky install",
@@ -30,8 +30,8 @@
   },
   "lint-staged": {
     "{apps,libs}/**/*.{ts,json,md,scss,html}": [
-      "yarn run affected:lint  -- --uncommitted --parallel -- --fix",
-      "yarn run format:write -- --uncommitted"
+      "yarn nx affected:lint  -- --uncommitted --parallel -- --fix=true",
+      "yarn nx format:write -- --uncommitted"
     ]
   },
   "private": true,

@@ -11,7 +11,7 @@ export const mockChild = jest.fn().mockImplementation(() => ({
   error: mockError,
   fatal: mockFatal,
   warn: mockWarn,
-  trace: mockTrace,
+  trace: mockTrace
 }));
 
 const pino = jest.fn().mockImplementation(() => ({
@@ -21,7 +21,7 @@ const pino = jest.fn().mockImplementation(() => ({
   error: mockError,
   fatal: mockFatal,
   warn: mockWarn,
-  trace: mockTrace,
+  trace: mockTrace
 }));
 
 export default pino;
