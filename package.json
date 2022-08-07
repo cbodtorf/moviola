@@ -20,7 +20,7 @@
     "lint": "nx run-many --target=lint --projects=backend,frontend,util-schemas,util-logger",
     "lint:be": "nx lint backend",
     "lint:fe": "nx lint frontend",
-    "prepare": "husky install",
+    "postinstall": "husky install",
     "precommit": "lint-staged"
   },
   "husky": {
