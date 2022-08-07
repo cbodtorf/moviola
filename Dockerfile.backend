@@ -2,18 +2,19 @@
 
 # --- -base- ---
 FROM node:lts-alpine as base
+RUN apk add --no-cache libc6-compat
 ENV YARN_CACHE_FOLDER=./yarn_cache
 # Create and change to the app directory.
 WORKDIR /usr/src/app
 # Copy application dependency manifests to the container image.
 COPY package.json ./yarn.* ./
-RUN yarn install --frozen-lockfile
+RUN yarn install --frozen-lockfile --omit=dev --ignore-scripts
 
 # --- -build- ---
 FROM base as build
 # Copy local code to the container image.
 COPY . .
-ENV NODE_ENV=production
+COPY --from=base /usr/src/app/node_modules ./node_modules
 
 # Build the app
 RUN yarn build:be:prod
@@ -21,10 +22,13 @@ RUN ls -lah dist/apps/backend
 
 # --- -deploy- ---
 FROM build as deploy
+ENV NODE_ENV=production
 WORKDIR /var/www/html
 COPY --from=build /usr/src/app/dist/apps/backend .
 
-RUN yarn install --production
+RUN yarn install --production --omit=dev --ignore-scripts
+# dependencies that fastify needs
+RUN yarn add reflect-metadata tslib rxjs fastify
 
 # --- --- ---
 CMD ls -las /usr/src/app && tail -f /dev/null
