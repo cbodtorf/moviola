@@ -1,0 +1,31 @@
+{
+  "configurations": [
+    {
+      "name": "Cloud Run: Run/Debug Locally - Backend",
+      "type": "cloudcode.cloudrun",
+      "request": "launch",
+      "build": {
+        "docker": {
+          "path": "Dockerfile.backend"
+        }
+      },
+      "image": "workspace-name",
+      "service": {
+        "name": "workspace-name",
+        "containerPort": 8080,
+        "resources": {
+          "limits": {
+            "memory": "256Mi"
+          }
+        }
+      },
+      "target": {
+        "minikube": {}
+      },
+      "watch": true
+    },
+    {
+      "name": "Cloud Run: Run/Debug Locally - Web",
+    }
+  ]
+}

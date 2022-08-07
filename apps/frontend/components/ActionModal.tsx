@@ -42,7 +42,8 @@ const genreList = [
   'Fantasy',
 ];
 const movieClient = new ApiClient({
-  baseURL: 'http://localhost:4200/api/v1/movies',
+  // http://localhost:4200
+  baseURL: `${process.env.url}/api/v1/movies`,
 });
 
 /**
