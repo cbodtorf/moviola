@@ -25,10 +25,10 @@ RUN ls -lah dist/apps/backend
 # --- -deploy- ---
 FROM build as deploy
 WORKDIR /var/www/html
-COPY --from=build /root/app/dist/apps/backend .
+COPY --from=build /usr/src/app/dist/apps/backend .
 
 # --- --- ---
-CMD ls -las /root/app && tail -f /dev/null
+CMD ls -las /usr/src/app && tail -f /dev/null
 
 # Run the web service on container startup.
 # CMD ["node", "./dist/apps/backend/main.js"]
