@@ -7,8 +7,7 @@ ENV YARN_CACHE_FOLDER=./yarn_cache
 # Create and change to the app directory.
 WORKDIR /usr/src/app
 # Copy application dependency manifests to the container image.
-COPY package.json ./
-COPY yarn.lock ./
+COPY package.json ./yarn.lock ./
 RUN yarn install --frozen-lockfile
 
 # --- -build- ---
@@ -17,7 +16,7 @@ FROM base as build
 COPY . .
 ENV NODE_ENV=production
 # Copy local code to the container image.
-COPY . ./
+COPY . .
 # Build the app
 RUN yarn build:be:prod
 RUN ls -lah dist/apps/backend
@@ -26,6 +25,8 @@ RUN ls -lah dist/apps/backend
 FROM build as deploy
 WORKDIR /var/www/html
 COPY --from=build /usr/src/app/dist/apps/backend .
+
+RUN yarn install --production
 
 # --- --- ---
 CMD ls -las /usr/src/app && tail -f /dev/null
