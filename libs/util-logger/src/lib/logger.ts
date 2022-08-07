@@ -46,7 +46,6 @@ export const createLogger = (componentName: string): Logger => {
   });
 
   const child = pinoLogger.child({ componentName });
-  console.log('child', child);
   const logger: Logger = {
     fatal: child.fatal.bind(child),
     error: child.error.bind(child),
