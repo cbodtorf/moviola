@@ -14,6 +14,7 @@ const nextConfig = {
     appID: process.env.NX_ALGOLIA_APP_ID,
     apiKey: process.env.NX_ALGOLIA_PUBLIC_API_KEY,
     indexName: process.env.NX_ALGOLIA_INDEX_NAME,
+    url: process.env.NX_URL
   }
 };
 
