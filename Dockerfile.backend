@@ -1,13 +1,12 @@
-# Dockerfile.api - for backend project
+# Dockerfile.backend - for backend project
 
 # --- -base- ---
-# Use the official lightweight Node.js 14 image.
-FROM node:14-slim as base
+FROM node:lts-alpine as base
 ENV YARN_CACHE_FOLDER=./yarn_cache
 # Create and change to the app directory.
 WORKDIR /usr/src/app
 # Copy application dependency manifests to the container image.
-COPY package.json ./yarn.lock ./
+COPY package.json ./yarn.* ./
 RUN yarn install --frozen-lockfile
 
 # --- -build- ---
@@ -15,8 +14,7 @@ FROM base as build
 # Copy local code to the container image.
 COPY . .
 ENV NODE_ENV=production
-# Copy local code to the container image.
-COPY . .
+
 # Build the app
 RUN yarn build:be:prod
 RUN ls -lah dist/apps/backend
