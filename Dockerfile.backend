@@ -36,4 +36,4 @@ RUN yarn add reflect-metadata tslib rxjs fastify
 # CMD ls -las /root/app && tail -f /dev/null
 
 # Run the web service on container startup.
-CMD ["node", "./dist/apps/backend/main.js"]
+CMD ["node", "./main.js"]
