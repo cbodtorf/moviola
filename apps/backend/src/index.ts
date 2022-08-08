@@ -12,19 +12,20 @@ async function startServer() {
     const app = build({});
 
     // Ensure port environment variable is number
+    logger.info(`process.env.PORT ${process.env.PORT}`);
     const envPort = parseInt(process.env.PORT || '');
     const port = Number.isInteger(envPort) ? envPort : 3333;
 
     const host = '0.0.0.0';
     const url = await app.listen({ port, host });
 
-    const [protocol, baseUrl] = url.split(':');
-    const serverUrl = `${protocol}:${baseUrl}:${
-      process.env.SERVICE_PORT || 3333
-    }`;
+    // const [protocol, baseUrl] = url.split(':');
+    // const serverUrl = `${protocol}:${baseUrl}:${
+    //   process.env.SERVICE_PORT || 3333
+    // }`;
 
-    logger.info(`🚀 Server ready at ${serverUrl}`);
-    logger.info(`Try your health check at: ${serverUrl}/api/health`);
+    logger.info(`🚀 Server ready at ${url}`);
+    logger.info(`Try your health check at: ${url}/health`);
   } catch (error) {
     logger.error(error, 'Unknown Error');
     process.exit(1);

@@ -55,11 +55,25 @@ Here is how we can run these builds locally.
 
 Currently we have the project setup to deploy on Google Cloud Run through their continous deployment trigger, connected to github.
 
+**Note** The docker-compose.yml is just for testing individual builds before pushing
+- `docker-compose up -d --build`
+  - builds service (I like to comment out the unneeded service in the compose filee)
+- `docker ps`
+  - to list images
+- `docker logs ${CONTAINER_ID}`
+  - to show logs
+- `docker kill ${CONTAINER_ID}`
+  - helpful if an image is not working as expected
+- `docker system prune --all`
+  - helpful if docker runs out of space
+
 ### Frontend
 - Setup [Cloud Run](https://cloud.google.com/run) service `moviola-frontend`
 - Setup [continuous deployment](https://cloud.google.com/run/docs/continuous-deployment-with-cloud-build)
   - Configure to build from **Docker**
   - Dockerfile should point to `Dockerfile.frontend`
+  - Include Filter
+    - add `libs/**` & `apps/frontend/**`
   - Edit Image name: `gcr.io/moviola-358701/github.com/cbodtorf/moviola-frontend:$COMMIT_SHA`
   - Add environment variables
   ```sh
@@ -68,6 +82,7 @@ Currently we have the project setup to deploy on Google Cloud Run through their 
     NX_ALGOLIA_INDEX_NAME
     NX_URL # should point to backend 
   ```
+  - I had to increase the timeout to `900` seconds
 
 - Quirks
   - Nextjs is using `standalone` to optimize build, but there were some quirks to get this rocking with NX. See the [issue on NX github](https://github.com/nrwl/nx/issues/9017)
@@ -78,6 +93,8 @@ Currently we have the project setup to deploy on Google Cloud Run through their 
 - Setup [continuous deployment](https://cloud.google.com/run/docs/continuous-deployment-with-cloud-build)
   - Configure to build from **Docker**
   - Dockerfile should point to `Dockerfile.backend`
+  - Include Filter
+    - add `libs/**` & `apps/backend/**`
   - Edit Image name: `gcr.io/moviola-358701/github.com/cbodtorf/moviola-backend:$COMMIT_SHA`
   - Add environment variables
   ```sh
@@ -91,11 +108,6 @@ Currently we have the project setup to deploy on Google Cloud Run through their 
 - When creating new services, we may need to update the `edit & deploy new revision`.
   - The **placeholder** image is used by default, but once our images are build from the pipeline, we can connect them up by following these [instructions](https://cloud.google.com/run/docs/deploying#revision).
   - Just select the latest respective image for `Container image URL`
-
-- An improvement would be to use a CI/CD pipeline with Github Actions, utilizing `gcloud` CLI. This way we could have more granular control over deployments.
-  - ie. If only changes were made to the **frontend**, the **backend** would not trigger a deploy.
-
- 
 
 ## Design
 
