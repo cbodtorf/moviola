@@ -44,6 +44,30 @@ export default function build(opts: Record<string, unknown> = {}) {
     }
   });
 
+  app.register(import('@fastify/cors'), (_instance) => {
+    return (_req, callback) => {
+      const corsOptions = {
+        origin: (origin, cb) => {
+          const hostname = new URL(origin).hostname;
+          if (
+            // Request from localhost will pass in development
+            (hostname === 'localhost' &&
+              process.env.NODE_ENV === 'development') ||
+            hostname === process.env.FRONTEND_HOST
+          ) {
+            cb(null, true);
+            return;
+          }
+          // Generate an error on other origins, disabling access
+          cb(new Error('Not allowed'), false);
+        }
+      };
+
+      // callback expects two parameters: error and options
+      callback(null, corsOptions);
+    };
+  });
+
   // Register routes for frontend
   app.register(routes, { prefix: `/api` });
 
