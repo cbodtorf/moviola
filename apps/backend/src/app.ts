@@ -1,6 +1,7 @@
 import { createLogger } from '@moviola/util-logger';
 import fastify from 'fastify';
 import healthCheck from 'fastify-custom-healthcheck';
+import cors from '@fastify/cors';
 import { fastifyYupSchema } from 'fastify-yup-schema';
 import { AlgoliaService } from './algolia/service';
 import { environment } from './environments/environment';
@@ -44,28 +45,34 @@ export default function build(opts: Record<string, unknown> = {}) {
     }
   });
 
-  app.register(import('@fastify/cors'), (_instance) => {
-    return (_req, callback) => {
-      const corsOptions = {
-        origin: (origin, cb) => {
-          const hostname = new URL(origin).hostname;
-          if (
-            // Request from localhost will pass in development
-            (hostname === 'localhost' &&
-              process.env.NODE_ENV === 'development') ||
-            hostname === process.env.FRONTEND_HOST
-          ) {
-            cb(null, true);
-            return;
-          }
-          // Generate an error on other origins, disabling access
-          cb(new Error('Not allowed'), false);
-        }
-      };
+  // Allow cors for certain scenarios
+  // Dev -> we allow undefined and localhost
+  // Prod -> we allow env for FRONTEND_HOST
+  app.register(cors, {
+    origin: (
+      origin: string | undefined,
+      cb: (err: Error | null, allow: boolean) => void
+    ) => {
+      if (
+        (process.env.NODE_ENV === 'development' &&
+          typeof origin === 'undefined') ||
+        /localhost/.test(origin)
+      ) {
+        cb(null, true);
+        return;
+      }
 
-      // callback expects two parameters: error and options
-      callback(null, corsOptions);
-    };
+      if (
+        process.env.NODE_ENV === 'production' &&
+        origin === process.env.FRONTEND_HOST
+      ) {
+        cb(null, true);
+        return;
+      }
+
+      logger.warn({ origin }, 'Warn: Request coming from invalid origin');
+      cb(new Error(), false);
+    }
   });
 
   // Register routes for frontend

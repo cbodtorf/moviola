@@ -1,6 +1,6 @@
-version: '3.3'
+# version: '3.3'
 
-services:
+# services:
   # frontend:
   #   container_name: frontend
   #   build:
@@ -13,14 +13,33 @@ services:
   #     - ./:/app
   #     - /app/node_modules
   #     - /app/.next
+  # backend:
+  #   environment:
+  #     PORT: 8080
+  #     SERVICE_PORT: 5004
+  #   container_name: backend
+  #   build:
+  #     context: ./
+  #     dockerfile: ./Dockerfile.backend
+  #   ports:
+  #     - '5004:8080'
+  #   restart: on-failure
+  #   volumes:
+  #     - .:/usr/src/app
+
+
+version: '3.3'
+services:
+  # html:
+  #   image: html
+  #   environment:
+  #     - apiPath=http://api:3333
+  #   ports:
+  #     - '8080:3334'
   backend:
-    container_name: backend
-    build:
-      context: ./
-      dockerfile: ./Dockerfile.backend
+    image: backend
+    environment:
+      # PORT: 8080
+      SERVICE_PORT: 5004
     ports:
-      - '3434:9090'
-    restart: on-failure
-    volumes:
-      - ./:/app
-      - /app/node_modules
+      - '8081:3333'

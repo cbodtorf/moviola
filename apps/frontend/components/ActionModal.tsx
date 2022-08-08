@@ -43,7 +43,7 @@ const genreList = [
 ];
 const movieClient = new ApiClient({
   // http://localhost:4200
-  baseURL: `${process.env.url}/api/v1/movies`,
+  baseURL: `${process.env.NX_URL}/api/v1/movies`,
 });
 
 /**
