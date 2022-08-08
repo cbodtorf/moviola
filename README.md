@@ -50,6 +50,53 @@ Here is how we can run these builds locally.
 | yarn start:be:prod | production  | backend           |
 | yarn start:fe:prod | production  | frontend          |
 
+
+## Deployment Pipeline
+
+Currently we have the project setup to deploy on Google Cloud Run through their continous deployment trigger, connected to github.
+
+### Frontend
+- Setup [Cloud Run](https://cloud.google.com/run) service `moviola-frontend`
+- Setup [continuous deployment](https://cloud.google.com/run/docs/continuous-deployment-with-cloud-build)
+  - Configure to build from **Docker**
+  - Dockerfile should point to `Dockerfile.frontend`
+  - Edit Image name: `gcr.io/moviola-358701/github.com/cbodtorf/moviola-frontend:$COMMIT_SHA`
+  - Add environment variables
+  ```sh
+    NX_ALGOLIA_APP_ID 
+    NX_ALGOLIA_PUBLIC_API_KEY
+    NX_ALGOLIA_INDEX_NAME
+    NX_URL # should point to backend 
+  ```
+
+- Quirks
+  - Nextjs is using `standalone` to optimize build, but there were some quirks to get this rocking with NX. See the [issue on NX github](https://github.com/nrwl/nx/issues/9017)
+    - Specifically this [answer](https://github.com/nrwl/nx/issues/9017#issuecomment-1180462040) 
+
+### Backend
+- Setup (Cloud Run)[https://cloud.google.com/run] service `moviola-backend`
+- Setup [continuous deployment](https://cloud.google.com/run/docs/continuous-deployment-with-cloud-build)
+  - Configure to build from **Docker**
+  - Dockerfile should point to `Dockerfile.backend`
+  - Edit Image name: `gcr.io/moviola-358701/github.com/cbodtorf/moviola-backend:$COMMIT_SHA`
+  - Add environment variables
+  ```sh
+    NX_ALGOLIA_APP_ID 
+    NX_ALGOLIA_ADMIN_API_KEY
+    NX_ALGOLIA_INDEX_NAME
+    FRONTEND_HOST # should point to frontend hostname 
+  ```
+
+### Notes
+- When creating new services, we may need to update the `edit & deploy new revision`.
+  - The **placeholder** image is used by default, but once our images are build from the pipeline, we can connect them up by following these [instructions](https://cloud.google.com/run/docs/deploying#revision).
+  - Just select the latest respective image for `Container image URL`
+
+- An improvement would be to use a CI/CD pipeline with Github Actions, utilizing `gcloud` CLI. This way we could have more granular control over deployments.
+  - ie. If only changes were made to the **frontend**, the **backend** would not trigger a deploy.
+
+ 
+
 ## Design
 
 A basic architecture diagram
@@ -117,7 +164,7 @@ A basic architecture diagram
     - [X] Remove scaffolding styles
 
 #### Production Readiness
-- [ ] Deployment Pipeline
+- [x] Deployment Pipeline
 - [x] Versioning
 - [ ] Rate Limit
 - [ ] Benchmarks
@@ -137,8 +184,8 @@ A basic architecture diagram
   - [ ] Testing
 
 #### v2 Feature Work
-- [ ] Devops
-  - [ ] Containerize
+- [X] Devops
+  - [X] Containerize
 - [ ] Backend
   - [ ] Users
   - [ ] Authenticated Routes
