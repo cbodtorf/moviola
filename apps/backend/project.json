@@ -23,7 +23,8 @@
               "with": "apps/backend/src/environments/environment.prod.ts"
             }
           ],
-          "verbose": true
+          "verbose": true,
+          "generatePackageJson": true
         }
       }
     },

@@ -16,7 +16,6 @@ FROM base as build
 # Copy local code to the container image.
 COPY . ./
 ENV NODE_ENV=production
-# COPY --from=base /root/app/node_modules ./node_modules
 
 # Build the app
 RUN yarn build:be:prod --verbose
@@ -24,16 +23,17 @@ RUN ls -lah dist/apps/backend
 
 # --- -deploy- ---
 FROM build as deploy
-
-WORKDIR /var/www/html
-COPY --from=build /root/app/dist/apps/backend .
+WORKDIR /root/app/dist/apps/backend
+# COPY --from=build /root/app/dist/apps/backend .
+COPY --from=base /root/app/node_modules ./node_modules
 
 RUN yarn install --production --omit=dev --ignore-scripts
 # dependencies that fastify needs
-RUN yarn add reflect-metadata tslib rxjs fastify
+RUN yarn add reflect-metadata tslib rxjs
 
 # --- --- ---
 # CMD ls -las /root/app && tail -f /dev/null
+RUN ls -lah /root/app/dist/apps/backend
 
 # Run the web service on container startup.
 CMD ["node", "./main.js"]
