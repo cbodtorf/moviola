@@ -5,6 +5,12 @@ import { Pagination as PaginationCustom } from '../components/Pagination';
 import { Hits as HitsCustom } from '../components/Hits';
 import { Hit } from '../components/Hit';
 import { RefinementDrawer } from '../components/RefinementDrawer';
+
+// required for prod build
+// https://github.com/nrwl/nx/issues/9017
+import path from 'path'
+path.resolve('./next.config.js')
+
 import {
   Button,
   Center,
