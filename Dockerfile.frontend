@@ -23,6 +23,10 @@ FROM deps as build
 # Copy local code to the container image.
 COPY . ./
 ENV NODE_ENV=production
+ENV NEXT_PUBLIC_ALGOLIA_APP_ID=Y4UA6TSHLT
+ENV NEXT_PUBLIC_ALGOLIA_PUBLIC_API_KEY=edef8e8608b7f70edb520379b6ea624b
+ENV NEXT_PUBLIC_ALGOLIA_INDEX_NAME=moviola
+ENV NEXT_PUBLIC_URL=https://moviola-backend-3gners7vba-uc.a.run.app/
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
