@@ -128,6 +128,10 @@ A basic architecture diagram
 
 - DELETE `/api/v1/movies/:id` - removes movie from index
 
+## Analytics
+
+The frontend App uses Mixpanel to collect data about certain events. This way we can have a better idea about how users are interacting this the site. In the future we can run A/B tests on certain features so make sure we are delivering a proper experience.
+
 ## Action Items
 
 #### Setup

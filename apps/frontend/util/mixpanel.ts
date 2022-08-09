@@ -1,12 +1,15 @@
-// Remove { Dict, Query } if not using TypeScript
 import mixpanel, { Dict, Query } from 'mixpanel-browser';
 
 const isProd = process.env.NODE_ENV === 'production';
 
+// Initialize sdk
 mixpanel.init('189877e253ddd0c949c558b43f71b407', {
   debug: !isProd
 });
 
+/**
+ * @description A small wrapper for mixpanel sdk
+ */
 export const Mixpanel = {
   identify: (id: string) => {
     mixpanel.identify(id);
