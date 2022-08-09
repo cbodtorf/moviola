@@ -65,7 +65,10 @@ export default function build(opts: Record<string, unknown> = {}) {
       if (
         process.env.NODE_ENV === 'production' &&
         (typeof origin === 'undefined' ||
-          origin === (process.env.frontendHost || ''))
+          [
+            `https://${process.env.frontendHost}`,
+            `${process.env.frontendHost}`
+          ].includes(origin))
       ) {
         cb(null, true);
         return;
