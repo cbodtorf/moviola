@@ -41,14 +41,16 @@ const genreList = [
   'Family',
   'Fantasy',
 ];
-const movieClient = new ApiClient({
-  baseURL: 'http://localhost:4200/api/v1/movies',
-});
 
 /**
  * @description Modal Element for editing or creating items
  */
 export function ActionModal({ isOpen, onClose, hit, action }) {
+  const backendUrl = process.env.url;
+  const movieClient = new ApiClient({
+    baseURL: `${backendUrl}/api/v1/movies`
+  });
+
   const { refresh } = useInstantSearch();
   const toast = useToast();
   hit.genre = hit.genre || [];

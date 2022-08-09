@@ -11,9 +11,10 @@ const nextConfig = {
     svgr: false,
   },
   env: {
-    appID: process.env.NX_ALGOLIA_APP_ID,
-    apiKey: process.env.NX_ALGOLIA_PUBLIC_API_KEY,
-    indexName: process.env.NX_ALGOLIA_INDEX_NAME,
+    appID: process.env.NEXT_PUBLIC_ALGOLIA_APP_ID,
+    apiKey: process.env.NEXT_PUBLIC_ALGOLIA_PUBLIC_API_KEY,
+    indexName: process.env.NEXT_PUBLIC_INDEX_NAME,
+    url: process.env.NEXT_PUBLIC_URL,
   }
 };
 
