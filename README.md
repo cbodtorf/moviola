@@ -6,6 +6,10 @@ Moviola is a central hub for movie fanatics, allowing users to search for films 
 
 The application is a set of micro-services including a front-end SPA and a back-end server, both with the ability to interact with our search platform of choice.
 
+#### Visit the production site here - moviola.vercel.app
+
+---
+
 ## Get Started
 
 ### Prerequisites
