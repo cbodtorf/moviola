@@ -1,6 +1,6 @@
-// import {
-//   Highlight,
-// } from 'react-instantsearch-hooks-web';
+import {
+  Highlight,
+} from 'react-instantsearch-hooks-web';
 import {
   Box,
   Badge,
@@ -51,7 +51,8 @@ export function Hit(props) {
                     px="2"
                     colorScheme="teal"
                   >
-                    {genre}
+                    {/* Note the dot notation here is not javascript approved */}
+                    <Highlight hit={hit} attribute={`genre.${i}`} />
                   </Badge>
                 );
               })}
@@ -65,10 +66,11 @@ export function Hit(props) {
             lineHeight="tight"
             noOfLines={1}
           >
-            {hit.title}
+            <Highlight hit={hit} attribute="title" />
 
             <Box as="span" color="gray.600" fontSize="sm">
-              <span> </span>({hit.year})
+              <span> </span>
+              (<Highlight hit={hit} attribute="year" />)
             </Box>
           </Box>
 
