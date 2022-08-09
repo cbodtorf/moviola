@@ -22,9 +22,9 @@ import RefinementAccordian from '../components/RefinementAccordian';
 export function Search() {
   // Test environment comes in differently than dev.
   const algoliaEnv = {
-    appID: process.env.appID,
-    apiKey: process.env.apiKey,
-    indexName: process.env.indexName
+    appID: process.env.NEXT_PUBLIC_ALGOLIA_APP_ID,
+    apiKey: process.env.NEXT_PUBLIC_ALGOLIA_PUBLIC_API_KEY,
+    indexName: process.env.NEXT_PUBLIC_INDEX_NAME,
   }
 
   const { isOpen, onOpen, onClose } = useDisclosure();

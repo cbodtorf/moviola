@@ -46,9 +46,8 @@ const genreList = [
  * @description Modal Element for editing or creating items
  */
 export function ActionModal({ isOpen, onClose, hit, action }) {
-  const backendUrl = process.env.url;
   const movieClient = new ApiClient({
-    baseURL: `${backendUrl}/api/v1/movies`
+    baseURL: `${ process.env.NEXT_PUBLIC_URL}/api/v1/movies`
   });
 
   const { refresh } = useInstantSearch();
