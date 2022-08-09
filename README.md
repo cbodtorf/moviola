@@ -136,6 +136,8 @@ A basic architecture diagram
 
 The frontend App uses Mixpanel to collect data about certain events. This way we can have a better idea about how users are interacting this the site. In the future we can run A/B tests on certain features so make sure we are delivering a proper experience.
 
+![Mix Panel Example](mixpanel-example.jpg)
+
 ## Action Items
 
 #### Setup
