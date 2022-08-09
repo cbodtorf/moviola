@@ -23,9 +23,9 @@ describe('schemas', () => {
   });
 
   describe('movieUpdateSchema', () => {
-    it('should not accept an empty object', async () => {
+    it('should accept an empty object', async () => {
       const result = await movieUpdateSchema.isValid({});
-      expect(result).toEqual(false);
+      expect(result).toEqual(true);
     });
 
     it('should accept an valid object', async () => {
