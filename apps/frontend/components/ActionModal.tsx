@@ -20,11 +20,12 @@ import {
   Tag,
   TagLabel,
   TagCloseButton,
-  useToast,
+  useToast
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { FormikProvider, Field, useFormik } from 'formik';
 import { movieAddSchema, movieUpdateSchema } from '@moviola/util-schemas';
+import { Mixpanel } from '../util/mixpanel';
 import ApiClient from '../util/api-client';
 import { Autocomplete, Option } from './Autocomplete';
 import { useInstantSearch } from 'react-instantsearch-hooks-web';
@@ -39,7 +40,7 @@ const genreList = [
   'Crime',
   'Science Fiction',
   'Family',
-  'Fantasy',
+  'Fantasy'
 ];
 
 /**
@@ -71,17 +72,26 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
       method: 'put',
       url: `/${objectID}`,
       schema: movieUpdateSchema
-    },
+    }
   };
   const copy = actionCopyMap[action];
 
   // Submit Handler
   async function handleSubmit(values, actions) {
+    const mixpanelAction = {
+      action,
+      payload: {
+        movie: {
+          ...values
+        }
+      }
+    };
+
     try {
       const res = await movieClient[copy.method](copy.url, {
         movie: {
-          ...values,
-        },
+          ...values
+        }
       });
 
       console.log(res);
@@ -89,14 +99,24 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
         title: `Successfully ${copy.success} ${values.title}.`,
         description: 'It may take a moment for this to show in the results',
         status: 'success',
-        isClosable: true,
+        isClosable: true
+      });
+
+      Mixpanel.track('Action Submit Success', {
+        ...mixpanelAction,
+        success: true
       });
     } catch (err) {
       console.log(err);
       toast({
         title: `Something went wrong`,
         status: 'error',
-        isClosable: true,
+        isClosable: true
+      });
+
+      Mixpanel.track('Action Submit Error', {
+        ...mixpanelAction,
+        success: false
       });
     }
 
@@ -123,14 +143,14 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
       rating,
       score,
       year,
-      genre,
+      genre
     },
     validationSchema: copy.schema,
-    onSubmit: handleSubmit,
-  })
+    onSubmit: handleSubmit
+  });
 
   const handleExternalButtonClick = () => {
-    formik.submitForm()
+    formik.submitForm();
   };
 
   return (
@@ -141,7 +161,6 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
           <ModalHeader>{copy.title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-
             <FormikProvider value={formik}>
               <Field name="title">
                 {({ field, form }) => (
@@ -155,7 +174,7 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
                 )}
               </Field>
 
-              <Field name="image" >
+              <Field name="image">
                 {({ field, form }) => (
                   <FormControl
                     isInvalid={form.errors.image && form.touched.image}
@@ -167,7 +186,7 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
                 )}
               </Field>
 
-              <Field name="rating" >
+              <Field name="rating">
                 {({ field, form }) => (
                   <FormControl
                     isInvalid={form.errors.rating && form.touched.rating}
@@ -176,9 +195,7 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
                     <NumberInput
                       {...field}
                       placeholder="rating"
-                      onChange={(val) =>
-                        form.setFieldValue(field.name, val)
-                      }
+                      onChange={(val) => form.setFieldValue(field.name, val)}
                     >
                       <NumberInputField />
                       <NumberInputStepper>
@@ -186,14 +203,12 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
                         <NumberDecrementStepper />
                       </NumberInputStepper>
                     </NumberInput>
-                    <FormErrorMessage>
-                      {form.errors.rating}
-                    </FormErrorMessage>
+                    <FormErrorMessage>{form.errors.rating}</FormErrorMessage>
                   </FormControl>
                 )}
               </Field>
 
-              <Field name="score" >
+              <Field name="score">
                 {({ field, form }) => (
                   <FormControl
                     isInvalid={form.errors.score && form.touched.score}
@@ -202,9 +217,7 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
                     <NumberInput
                       {...field}
                       placeholder="score"
-                      onChange={(val) =>
-                        form.setFieldValue(field.name, val)
-                      }
+                      onChange={(val) => form.setFieldValue(field.name, val)}
                     >
                       <NumberInputField />
                       <NumberInputStepper>
@@ -212,9 +225,7 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
                         <NumberDecrementStepper />
                       </NumberInputStepper>
                     </NumberInput>
-                    <FormErrorMessage>
-                      {form.errors.score}
-                    </FormErrorMessage>
+                    <FormErrorMessage>{form.errors.score}</FormErrorMessage>
                   </FormControl>
                 )}
               </Field>
@@ -228,9 +239,7 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
                     <NumberInput
                       {...field}
                       placeholder="year"
-                      onChange={(val) =>
-                        form.setFieldValue(field.name, val)
-                      }
+                      onChange={(val) => form.setFieldValue(field.name, val)}
                     >
                       <NumberInputField />
                       <NumberInputStepper>
@@ -276,7 +285,6 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
                 )}
               </Field>
             </FormikProvider>
-
           </ModalBody>
 
           <ModalFooter>

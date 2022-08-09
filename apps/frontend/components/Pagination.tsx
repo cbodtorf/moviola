@@ -1,6 +1,7 @@
 import { usePagination } from 'react-instantsearch-hooks-web';
 import { ButtonGroup, Button } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import { Mixpanel } from '../util/mixpanel';
 
 /**
  * @description Pagination buttons
@@ -21,6 +22,10 @@ export function Pagination(props) {
         size="sm"
         isDisabled={isFirstPage}
         onClick={() => {
+          Mixpanel.track('Pagination Action', {
+            action: 'first',
+            page: 0
+          });
           refine(0);
         }}
         colorScheme="teal"
@@ -33,6 +38,10 @@ export function Pagination(props) {
         size="sm"
         isDisabled={isFirstPage}
         onClick={() => {
+          Mixpanel.track('Pagination Action', {
+            action: 'prev',
+            page: prevPage
+          });
           refine(prevPage);
         }}
         colorScheme="teal"
@@ -49,6 +58,10 @@ export function Pagination(props) {
             size="sm"
             isDisabled={currentRefinement === page}
             onClick={() => {
+              Mixpanel.track('Pagination Action', {
+                action: 'number',
+                page: page
+              });
               refine(page);
             }}
             colorScheme="teal"
@@ -62,6 +75,10 @@ export function Pagination(props) {
         size="sm"
         isDisabled={isLastPage}
         onClick={() => {
+          Mixpanel.track('Pagination Action', {
+            action: 'next',
+            page: nextPage
+          });
           refine(nextPage);
         }}
         colorScheme="teal"
@@ -73,6 +90,10 @@ export function Pagination(props) {
         size="sm"
         isDisabled={isLastPage}
         onClick={() => {
+          Mixpanel.track('Pagination Action', {
+            action: 'last',
+            page: lastPage
+          });
           refine(lastPage);
         }}
         colorScheme="teal"

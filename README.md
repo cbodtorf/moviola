@@ -213,7 +213,7 @@ A basic architecture diagram
   - [ ] Login Page
   - [ ] Account Page
   - [ ] SEO
-  - [ ] Analytics
+  - [x] Analytics
 
 ## History
 

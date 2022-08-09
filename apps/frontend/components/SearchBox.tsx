@@ -1,10 +1,11 @@
 import { useSearchBox, UseSearchBoxProps } from 'react-instantsearch-hooks-web';
+import { Mixpanel } from '../util/mixpanel';
 import {
   InputGroup,
   Input,
   InputLeftElement,
   InputRightElement,
-  Button,
+  Button
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 
@@ -24,12 +25,22 @@ export function SearchBox(props: UseSearchBoxProps) {
         value={query}
         placeholder="Search..."
         onChange={(event) => {
-          console.log('event');
+          Mixpanel.track('Search box query', {
+            query: event.target.value
+          });
           refine(event.target.value);
         }}
       />
       <InputRightElement width="4.5rem">
-        <Button h="1.75rem" size="sm" onClick={clear} colorScheme="teal">
+        <Button
+          h="1.75rem"
+          size="sm"
+          colorScheme="teal"
+          onClick={() => {
+            Mixpanel.track('Clear search box');
+            clear();
+          }}
+        >
           Clear
         </Button>
       </InputRightElement>

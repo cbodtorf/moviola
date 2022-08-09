@@ -1,5 +1,7 @@
 import algoliasearch from 'algoliasearch/lite';
 import { InstantSearch, Configure } from 'react-instantsearch-hooks-web';
+import { useEffect } from 'react';
+import { Mixpanel } from '../util/mixpanel';
 import { SearchBox as SearchBoxCustom } from '../components/SearchBox';
 import { Pagination as PaginationCustom } from '../components/Pagination';
 import { Hits as HitsCustom } from '../components/Hits';
@@ -14,18 +16,22 @@ import {
   Hide,
   Stack,
   Show,
-  useDisclosure,
+  useDisclosure
 } from '@chakra-ui/react';
 import FilterIcon from '../components/FilterIcon';
 import RefinementAccordian from '../components/RefinementAccordian';
 
 export function Search() {
+  useEffect(() => {
+    Mixpanel.track('Loaded Search');
+  }, []);
+
   // Test environment comes in differently than dev.
   const algoliaEnv = {
     appID: process.env.NEXT_PUBLIC_ALGOLIA_APP_ID,
     apiKey: process.env.NEXT_PUBLIC_ALGOLIA_PUBLIC_API_KEY,
-    indexName: process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME,
-  }
+    indexName: process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME
+  };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const searchClient = algoliasearch(algoliaEnv.appID, algoliaEnv.apiKey);
@@ -44,7 +50,7 @@ export function Search() {
         templateAreas={[
           templateAreaMobile,
           templateAreaMobile,
-          templateAreaDesktop,
+          templateAreaDesktop
         ]}
         gridTemplateRows={'50px 1fr 30px'}
         gridTemplateColumns={['1fr', '1fr', '250px 1fr']}
@@ -77,7 +83,10 @@ export function Search() {
               leftIcon={<FilterIcon boxSize={2} color="white" />}
               size="sm"
               colorScheme="teal"
-              onClick={onOpen}
+              onClick={() => {
+                Mixpanel.track('Mobile Filter Drawer Open');
+                onOpen();
+              }}
               mb="5"
             >
               Refine
