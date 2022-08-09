@@ -24,11 +24,14 @@ You can create a `./apps/frontend/.env.test` file with specific environment vari
 
 1. Copy each `.env.example` and rename it to `.env`
 2. Frontend:
-  - Set the environment variables `NEXT_PUBLIC_ALGOLIA_APP_ID`, `NEXT_PUBLIC_ALGOLIA_PUBLIC_API_KEY`, `NEXT_PUBLIC_ALGOLIA_INDEX_NAME` and `NEXT_PUBLIC_URL` in the .env file. You can obtain those from the Algolia Dashboard.
-  - `NEXT_PUBLIC_URL` will be the backend url for our api, for dev it is http://localhost:3333, for production we point to our cloudrun url.
+
+- Set the environment variables `NEXT_PUBLIC_ALGOLIA_APP_ID`, `NEXT_PUBLIC_ALGOLIA_PUBLIC_API_KEY`, `NEXT_PUBLIC_ALGOLIA_INDEX_NAME` and `NEXT_PUBLIC_URL` in the .env file. You can obtain those from the Algolia Dashboard.
+- `NEXT_PUBLIC_URL` will be the backend url for our api, for dev it is http://localhost:3333, for production we point to our cloudrun url.
+
 3. Backend:
-  - Set the environment variables `ALGOLIA_APP_ID`, `ALGOLIA_ADMIN_API_KEY`, `ALGOLIA_INDEX_NAME` and `FRONTEND_HOST` in the .env file. You can obtain those from the Algolia Dashboard.
-  - `FRONTEND_HOST` will be the host name of where the frontend is hosted, in ourcase it is vercel. It is not needed for development.
+
+- Set the environment variables `ALGOLIA_APP_ID`, `ALGOLIA_ADMIN_API_KEY`, `ALGOLIA_INDEX_NAME` and `FRONTEND_HOST` in the .env file. You can obtain those from the Algolia Dashboard.
+- `FRONTEND_HOST` will be the host name of where the frontend is hosted, in ourcase it is vercel. It is not needed for development.
 
 ### Local Development
 
