@@ -5,6 +5,10 @@ export function handleServiceError(error) {
   console.log('Error', error?.response?.data?.message || error);
 }
 
+/**
+ * @description Wrapper for API
+ * - used for connecting to our backend api
+ */
 export default class ApiClient {
   private client: AxiosInstance;
 
@@ -14,9 +18,9 @@ export default class ApiClient {
       responseType: 'json' as const,
       headers: {
         'Content-Type': 'application/json',
-        ...apiConfiguration.headers,
+        ...apiConfiguration.headers
       },
-      timeout: apiConfiguration.timeout || 10 * 1000,
+      timeout: apiConfiguration.timeout || 10 * 1000
     });
   }
 
