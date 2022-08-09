@@ -8,9 +8,10 @@ import {
   IconButton,
   Image,
   Stack,
-  useDisclosure,
+  useDisclosure
 } from '@chakra-ui/react';
 import { StarIcon, EditIcon, DeleteIcon } from '@chakra-ui/icons';
+import { Mixpanel } from '../util/mixpanel';
 import ActionModal from './ActionModal';
 import DeleteAlert from './DeleteAlert';
 
@@ -24,7 +25,7 @@ export function Hit(props) {
   const {
     isOpen: isAlertOpen,
     onOpen: onAlertOpen,
-    onClose: onAlertClose,
+    onClose: onAlertClose
   } = useDisclosure();
 
   return (
@@ -88,11 +89,21 @@ export function Hit(props) {
             <IconButton
               aria-label="Edit"
               icon={<EditIcon />}
-              onClick={onOpen}
+              onClick={() => {
+                Mixpanel.track('Edit Action Modal Open');
+                onOpen();
+              }}
             />
             <IconButton
               aria-label="Delete"
-              icon={<DeleteIcon onClick={onAlertOpen} />}
+              icon={
+                <DeleteIcon
+                  onClick={() => {
+                    Mixpanel.track('Delete Action Modal Open');
+                    onAlertOpen();
+                  }}
+                />
+              }
             />
           </ButtonGroup>
         </Box>

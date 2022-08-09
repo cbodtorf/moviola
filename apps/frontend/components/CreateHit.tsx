@@ -1,5 +1,6 @@
 import { Box, Button, Center, useDisclosure } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
+import { Mixpanel } from '../util/mixpanel';
 import ActionModal from './ActionModal';
 
 /**
@@ -21,7 +22,10 @@ export function CreateHit() {
           colorScheme="teal"
           variant="outline"
           m="10"
-          onClick={onOpen}
+          onClick={() => {
+            Mixpanel.track('Create Action Modal Open');
+            onOpen();
+          }}
         >
           Create
         </Button>

@@ -1,9 +1,10 @@
 import {
   useRefinementList,
-  UseRefinementListProps,
+  UseRefinementListProps
 } from 'react-instantsearch-hooks-web';
 // For whatever reason this type wasn't exported from the hook library?
 import { RefinementListItem } from 'instantsearch.js/es/connectors/refinement-list/connectRefinementList';
+import { Mixpanel } from '../util/mixpanel';
 import { Badge, Stack, Checkbox } from '@chakra-ui/react';
 
 type ItemsProps = {
@@ -21,6 +22,10 @@ function Items({ items, refine }: ItemsProps) {
             key={`${item.label}-${index}`}
             isChecked={item.isRefined}
             onChange={() => {
+              Mixpanel.track('Refinement Checkbox', {
+                isRefined: item.isRefined,
+                item: item.value
+              });
               refine(item.value);
             }}
           >

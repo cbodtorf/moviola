@@ -7,12 +7,13 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   Button,
-  Stack,
+  Stack
 } from '@chakra-ui/react';
 import {
   RangeConnectorParams,
-  RangeBoundaries,
+  RangeBoundaries
 } from 'instantsearch.js/es/connectors/range/connectRange';
+import { Mixpanel } from '../util/mixpanel';
 import { useState } from 'react';
 
 /**
@@ -23,7 +24,7 @@ export function RangeInput(props: RangeConnectorParams) {
   const { start, range, refine } = useRange(props);
 
   const [rangeBoundaries, setRangeBoundaries] = useState(start);
-  const handleChange = (value) => setRangeBoundaries(value);
+  const handleChange = (value: RangeBoundaries) => setRangeBoundaries(value);
   const [rangeBoundariesMin, rangeBoundariesMax] = rangeBoundaries;
 
   return (
@@ -36,7 +37,7 @@ export function RangeInput(props: RangeConnectorParams) {
         onChange={(value) => {
           const newRangeBoundaries: RangeBoundaries = [
             Number(value),
-            rangeBoundariesMax,
+            rangeBoundariesMax
           ];
           handleChange(newRangeBoundaries);
         }}
@@ -58,7 +59,7 @@ export function RangeInput(props: RangeConnectorParams) {
         onChange={(value) => {
           const newRangeBoundaries: RangeBoundaries = [
             rangeBoundariesMin,
-            Number(value),
+            Number(value)
           ];
           handleChange(newRangeBoundaries);
         }}
@@ -70,7 +71,17 @@ export function RangeInput(props: RangeConnectorParams) {
         </NumberInputStepper>
       </NumberInput>
 
-      <Button onClick={() => refine(rangeBoundaries)}>Go</Button>
+      <Button
+        onClick={() => {
+          Mixpanel.track('Refinement Range', {
+            min: rangeBoundaries[0],
+            max: rangeBoundaries[1]
+          });
+          refine(rangeBoundaries);
+        }}
+      >
+        Go
+      </Button>
     </Stack>
   );
 }

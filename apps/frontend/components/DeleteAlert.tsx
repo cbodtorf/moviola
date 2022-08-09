@@ -6,10 +6,11 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   Button,
-  useToast,
+  useToast
 } from '@chakra-ui/react';
 import { useRef } from 'react';
 import { useInstantSearch } from 'react-instantsearch-hooks-web';
+import { Mixpanel } from '../util/mixpanel';
 import ApiClient from '../util/api-client';
 
 type RemoveResponse = {
@@ -29,6 +30,13 @@ export function DeleteAlert({ isOpen, onClose, hit }) {
   const toast = useToast();
   const cancelRef = useRef();
 
+  const mixpanelAction = {
+    action: 'delete',
+    payload: {
+      id: hit.objectID
+    }
+  };
+
   async function handleDelete() {
     try {
       const res: RemoveResponse = await movieClient.delete(`/${hit.objectID}`);
@@ -38,14 +46,24 @@ export function DeleteAlert({ isOpen, onClose, hit }) {
         title: `Successfully Removed ${hit.title}.`,
         description: 'It may take a moment for this to show in the results',
         status: 'success',
-        isClosable: true,
+        isClosable: true
+      });
+
+      Mixpanel.track('Action Submit Success', {
+        ...mixpanelAction,
+        success: true
       });
     } catch (err) {
       console.log(err);
       toast({
         title: `Something went wrong`,
         status: 'error',
-        isClosable: true,
+        isClosable: true
+      });
+
+      Mixpanel.track('Action Submit Error', {
+        ...mixpanelAction,
+        success: false
       });
     }
 
@@ -64,7 +82,10 @@ export function DeleteAlert({ isOpen, onClose, hit }) {
       <AlertDialog
         isOpen={isOpen}
         leastDestructiveRef={cancelRef}
-        onClose={onClose}
+        onClose={() => {
+          Mixpanel.track('Delete Cancel', mixpanelAction);
+          onClose();
+        }}
       >
         <AlertDialogOverlay>
           <AlertDialogContent>
@@ -77,10 +98,23 @@ export function DeleteAlert({ isOpen, onClose, hit }) {
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
+              <Button
+                ref={cancelRef}
+                onClick={() => {
+                  Mixpanel.track('Delete Cancel', mixpanelAction);
+                  onClose();
+                }}
+              >
                 Cancel
               </Button>
-              <Button colorScheme="red" onClick={handleDelete} ml={3}>
+              <Button
+                ml={3}
+                colorScheme="red"
+                onClick={() => {
+                  Mixpanel.track('Delete Confirm', mixpanelAction);
+                  handleDelete();
+                }}
+              >
                 Delete
               </Button>
             </AlertDialogFooter>
