@@ -184,7 +184,7 @@ The frontend App uses Mixpanel to collect data about certain events. This way we
       - [x] Styling
       - [x] Logic/Hooks
     - [x] Result Component
-      - [ ] Add highlights
+      - [x] Add highlights
       - [x] Styling
       - [x] Logic/Hooks
       - [x] Delete action
@@ -209,7 +209,7 @@ The frontend App uses Mixpanel to collect data about certain events. This way we
 
 #### Developer Experience
 
-- [ ] Github files
+- [x] Github files
 - [x] Precomit/Prepush hooks
   - [x] Formatting
   - [x] Linting
