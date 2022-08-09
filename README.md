@@ -15,6 +15,7 @@ The application is a set of micro-services including a front-end SPA and a back-
 ### Prerequisites
 
 1. Create an Algolia Application and an Algolia Index
+2. This [dataset](https://gist.github.com/praagyajoshi/3a1c652667920924e6e399bf039d339d) is uploaded to a new index via Algolia Dashboard.
 
 #### Environment
 
