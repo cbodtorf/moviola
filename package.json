@@ -21,7 +21,8 @@
     "lint:be": "nx lint backend",
     "lint:fe": "nx lint frontend",
     "postinstall": "husky install",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "prepush": "yarn lint -- --max-warnings=0 && yarn test"
   },
   "husky": {
     "hooks": {

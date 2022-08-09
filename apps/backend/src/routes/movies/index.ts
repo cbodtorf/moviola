@@ -1,5 +1,8 @@
-import { Logger } from '@moviola/util-logger';
-import { movieAddFastifySchema, movieUpdateFastifySchema } from '@moviola/util-schemas';
+import { getErrorMessage, getErrorStack, Logger } from '@moviola/util-logger';
+import {
+  movieAddFastifySchema,
+  movieUpdateFastifySchema
+} from '@moviola/util-schemas';
 import { SearchIndex } from 'algoliasearch';
 import { FastifyInstance, FastifyPluginOptions, FastifyReply } from 'fastify';
 
@@ -39,28 +42,23 @@ export async function addHandler(req, reply: FastifyReply) {
 
     // TODO: (V2) generate our own uuid, and save items in our own database before indexing to algolia.
     const res = await algolia.saveObject(req.body.movie, {
-      autoGenerateObjectIDIfNotExist: true,
+      autoGenerateObjectIDIfNotExist: true
     });
 
     reply.code(202).send({
       ...res,
-      success: true,
+      success: true
     });
   } catch (error) {
-    // TODO: handle validation errors
-    log.error(error, 'Unknown Error');
+    log.debug(
+      {
+        error: getErrorMessage(error),
+        stack: getErrorStack(error)
+      },
+      'Unknown Error'
+    );
 
-    let message = 'Unknown Server Error';
-    let code = 500;
-
-    if (error?.name === 'MissingObjectIDError') {
-      code = 400;
-      message = error.message;
-    }
-
-    reply.code(code).send({
-      message,
-    });
+    reply.code(500);
   }
 }
 
@@ -83,10 +81,10 @@ export async function updateHandler(req, reply: FastifyReply) {
     const res = await algolia.partialUpdateObject(
       {
         ...req.body.movie,
-        objectID: id,
+        objectID: id
       },
       {
-        createIfNotExists: false,
+        createIfNotExists: false
       }
     );
 
@@ -94,12 +92,17 @@ export async function updateHandler(req, reply: FastifyReply) {
 
     reply.code(202).send({
       ...res,
-      success: true,
+      success: true
     });
   } catch (error) {
-    // TODO: handle validation errors
-    // TODO: handle algolia errors
-    log.error(error);
+    log.debug(
+      {
+        error: getErrorMessage(error),
+        stack: getErrorStack(error)
+      },
+      'Unknown Error'
+    );
+
     reply.send(500);
   }
 }
@@ -124,12 +127,17 @@ export async function removeHandler(req, reply: FastifyReply) {
 
     reply.code(202).send({
       ...res,
-      success: true,
+      success: true
     });
   } catch (error) {
-    // TODO: handle validation errors
-    // TODO: handle algolia errors
-    log.error(error);
+    log.debug(
+      {
+        error: getErrorMessage(error),
+        stack: getErrorStack(error)
+      },
+      'Unknown Error'
+    );
+
     reply.send(500);
   }
 }

@@ -54,7 +54,8 @@ export default function build(opts: Record<string, unknown> = {}) {
       cb: (err: Error | null, allow: boolean) => void
     ) => {
       if (
-        process.env.NODE_ENV === 'development' &&
+        (process.env.NODE_ENV === 'development' ||
+          process.env.NODE_ENV === 'test') &&
         (typeof origin === 'undefined' || /localhost/.test(origin))
       ) {
         cb(null, true);
