@@ -66,8 +66,8 @@ export default function build(opts: Record<string, unknown> = {}) {
         process.env.NODE_ENV === 'production' &&
         (typeof origin === 'undefined' ||
           [
-            `https://${process.env.frontendHost}`,
-            `${process.env.frontendHost}`
+            `https://${environment.frontendHost}`,
+            `${environment.frontendHost}`
           ].includes(origin))
       ) {
         cb(null, true);
