@@ -19,7 +19,7 @@ There is also a `./apps/backend/.env.example` file with sensitive environment va
 You can create a `./apps/frontend/.env.test` file with specific environment variables for testing in case we want to use different credentials.
 
 1. Copy each `.env.example` and rename it to `.env`
-2. Set the environment variables `NX_ALGOLIA_APP_ID`, `NX_ALGOLIA_ADMIN_API_KEY`, `NX_ALGOLIA_PUBLIC_API_KEY` and `NX_ALGOLIA_INDEX_NAME` in the .env file. You can obtain those from the Algolia Dashboard.
+2. Set the environment variables `NEXT_PUBLIC_ALGOLIA_APP_ID`, `NEXT_PUBLIC_ALGOLIA_ADMIN_API_KEY`, `NEXT_PUBLIC_ALGOLIA_PUBLIC_API_KEY` and `NEXT_PUBLIC_ALGOLIA_INDEX_NAME` in the .env file. You can obtain those from the Algolia Dashboard.
 
 ### Local Development
 To run this project we will need to:
@@ -49,6 +49,65 @@ Here is how we can run these builds locally.
 | yarn start:prod    | production  | backend, frontend |
 | yarn start:be:prod | production  | backend           |
 | yarn start:fe:prod | production  | frontend          |
+
+## Deployment Pipeline
+
+Currently we have the project setup to deploy on the backend to Google Cloud Run through their continous deployment trigger, connected to github. The frontend is using Vercel for simplicity.
+
+### Frontend
+
+- Setup [Vercel](hhttps://nextjs.org/docs)
+- Setup [deploy hooks](hhttps://vercel.com/docs/concepts/git/deploy-hooks)
+  - Build command
+    - `npx nx build frontend --prod`
+  - Output Directory
+    - `dist/apps/frontend/.next`
+  - Include Filter
+    - add `libs/**` & `apps/frontend/**`
+  - Ignore Build Step
+    - `git diff HEAD^ HEAD --quiet ./apps/frontend/`
+  - Add environment variables
+  ```sh
+    NEXT_PUBLINEXT_PUBLIC_ALGOLIA_APP_ID
+    NEXT_PUBLINEXT_PUBLIC_ALGOLIA_PUBLIC_API_KEY
+    NEXT_PUBLINEXT_PUBLIC_ALGOLIA_INDEX_NAME
+    NEXT_PUBLINEXT_PUBLIC_URL # should point to backend
+  ```
+
+### Backend
+
+- Setup (Cloud Run)[https://cloud.google.com/run] service `moviola-backend`
+- Setup [continuous deployment](https://cloud.google.com/run/docs/continuous-deployment-with-cloud-build)
+  - Configure to build from **Docker**
+  - Dockerfile should point to `Dockerfile.backend`
+  - Include Filter
+    - add `libs/**` & `apps/backend/**`
+  - Edit Image name: `gcr.io/moviola-358701/github.com/cbodtorf/moviola-backend:$COMMIT_SHA`
+  - Add environment variables
+  ```sh
+    NNEXT_PUBLIC_ALGOLIA_APP_ID
+    NNEXT_PUBLIC_ALGOLIA_ADMIN_API_KEY
+    NNEXT_PUBLIC_ALGOLIA_INDEX_NAME
+    FRONTEND_HOST # should point to frontend hostname
+  ```
+
+### Notes
+
+- When creating new services, we may need to update the `edit & deploy new revision`.
+  - The **placeholder** image is used by default, but once our images are build from the pipeline, we can connect them up by following these [instructions](https://cloud.google.com/run/docs/deploying#revision).
+  - Just select the latest respective image for `Container image URL`
+
+- The docker-compose.yml is just for testing individual builds before pushing.
+  - `docker-compose up -d --build`
+    - builds service (I like to comment out the unneeded service in the compose filee)
+  - `docker ps`
+    - to list images
+  - `docker logs ${CONTAINER_ID}`
+    - to show logs
+  - `docker kill ${CONTAINER_ID}`
+    - helpful if an image is not working as expected
+  - `docker system prune --all`
+    - helpful if docker runs out of space
 
 ## Design
 

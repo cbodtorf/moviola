@@ -47,7 +47,7 @@ const genreList = [
  */
 export function ActionModal({ isOpen, onClose, hit, action }) {
   const movieClient = new ApiClient({
-    baseURL: `${ process.env.NEXT_PUBLIC_URL}/api/v1/movies`
+    baseURL: `${process.env.NEXT_PUBLIC_URL}/api/v1/movies`
   });
 
   const { refresh } = useInstantSearch();
