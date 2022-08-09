@@ -1,5 +1,9 @@
 import build from './app';
-import { createLogger } from '@moviola/util-logger';
+import {
+  createLogger,
+  getErrorMessage,
+  getErrorStack
+} from '@moviola/util-logger';
 
 const logger = createLogger('backend-service');
 
@@ -28,7 +32,13 @@ async function startServer() {
     logger.info(`🚀 Server ready at ${serverUrl}`);
     logger.info(`Try your health check at: ${serverUrl}/health`);
   } catch (error) {
-    logger.error(error, 'Unknown Error');
+    logger.error(
+      {
+        error: getErrorMessage(error),
+        stack: getErrorStack(error)
+      },
+      'Unknown Error'
+    );
     process.exit(1);
   }
 }
@@ -37,7 +47,13 @@ startServer();
 
 // Handle exceptions
 process.on('uncaughtException', (error: Error) => {
-  logger.error(error, 'uncaught exception received, shutting down server');
+  logger.error(
+    {
+      error: getErrorMessage(error),
+      stack: getErrorStack(error)
+    },
+    'uncaught exception received, shutting down server'
+  );
   process.exit(1);
 });
 

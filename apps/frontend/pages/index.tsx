@@ -20,6 +20,7 @@ import {
 } from '@chakra-ui/react';
 import FilterIcon from '../components/FilterIcon';
 import RefinementAccordian from '../components/RefinementAccordian';
+import AlgoliaErrorToast from '../components/AlgoliaErrorToast';
 
 export function Search() {
   useEffect(() => {
@@ -45,6 +46,7 @@ export function Search() {
 
   return (
     <InstantSearch searchClient={searchClient} indexName={algoliaEnv.indexName}>
+      <AlgoliaErrorToast />
       <Configure hitsPerPage={8} />
       <Grid
         templateAreas={[

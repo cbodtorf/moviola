@@ -1,8 +1,12 @@
 import Axios, { AxiosInstance } from 'axios';
-import { ApiConfiguration } from './types';
+import { MoviolaError } from './error';
+import { ApiConfiguration, ErrorType } from './types';
 
 export function handleServiceError(error) {
-  console.log('Error', error?.response?.data?.message || error);
+  throw new MoviolaError(
+    ErrorType.API_ERROR,
+    'Moviola Backend API service error.'
+  );
 }
 
 /**

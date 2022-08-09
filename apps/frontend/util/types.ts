@@ -10,3 +10,11 @@ export class ApiConfiguration {
   headers?: Record<string, string>;
   timeout?: number;
 }
+
+/**
+ * @description MoviolaError types
+ */
+export enum ErrorType {
+  API_ERROR = 'API_ERROR',
+  RUNTIME_ERROR = 'RUNTIME_ERROR'
+}

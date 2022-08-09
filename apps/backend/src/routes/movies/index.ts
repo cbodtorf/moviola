@@ -50,15 +50,19 @@ export async function addHandler(req, reply: FastifyReply) {
       success: true
     });
   } catch (error) {
+    const errorMessage = getErrorMessage(error);
+
     log.debug(
       {
-        error: getErrorMessage(error),
+        error: errorMessage,
         stack: getErrorStack(error)
       },
       'Unknown Error'
     );
 
-    reply.code(500);
+    reply.code(500).send({
+      message: errorMessage
+    });
   }
 }
 
@@ -95,15 +99,19 @@ export async function updateHandler(req, reply: FastifyReply) {
       success: true
     });
   } catch (error) {
+    const errorMessage = getErrorMessage(error);
+
     log.debug(
       {
-        error: getErrorMessage(error),
+        error: errorMessage,
         stack: getErrorStack(error)
       },
       'Unknown Error'
     );
 
-    reply.send(500);
+    reply.code(500).send({
+      message: errorMessage
+    });
   }
 }
 
@@ -130,14 +138,18 @@ export async function removeHandler(req, reply: FastifyReply) {
       success: true
     });
   } catch (error) {
+    const errorMessage = getErrorMessage(error);
+
     log.debug(
       {
-        error: getErrorMessage(error),
+        error: errorMessage,
         stack: getErrorStack(error)
       },
       'Unknown Error'
     );
 
-    reply.send(500);
+    reply.code(500).send({
+      message: errorMessage
+    });
   }
 }
