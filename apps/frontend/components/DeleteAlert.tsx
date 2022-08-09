@@ -12,10 +12,6 @@ import { useRef } from 'react';
 import { useInstantSearch } from 'react-instantsearch-hooks-web';
 import ApiClient from '../util/api-client';
 
-const movieClient = new ApiClient({
-  baseURL: 'http://localhost:4200/api/v1/movies',
-});
-
 type RemoveResponse = {
   success: boolean;
   taskID: number;
@@ -25,6 +21,10 @@ type RemoveResponse = {
  * @description Alert Diaolog for removing items from index
  */
 export function DeleteAlert({ isOpen, onClose, hit }) {
+  const movieClient = new ApiClient({
+    baseURL: `${process.env.NEXT_PUBLIC_URL}/api/v1/movies`
+  });
+
   const { refresh } = useInstantSearch();
   const toast = useToast();
   const cancelRef = useRef();
