@@ -12,6 +12,8 @@ async function startServer() {
     const app = build({});
 
     // Ensure port environment variable is number
+    logger.info(`process.env.PORT ${process.env.PORT}`);
+    logger.info(`process.env.NODE_ENV ${process.env.NODE_ENV}`);
     const envPort = parseInt(process.env.PORT || '');
     const port = Number.isInteger(envPort) ? envPort : 3333;
 
@@ -24,7 +26,7 @@ async function startServer() {
     }`;
 
     logger.info(`🚀 Server ready at ${serverUrl}`);
-    logger.info(`Try your health check at: ${serverUrl}/api/health`);
+    logger.info(`Try your health check at: ${serverUrl}/health`);
   } catch (error) {
     logger.error(error, 'Unknown Error');
     process.exit(1);
