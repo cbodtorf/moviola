@@ -1,0 +1,15 @@
+version: '3.3'
+services:
+  backend:
+    environment:
+      PORT: 8080
+      SERVICE_PORT: 5004
+    container_name: backend
+    build:
+      context: ./
+      dockerfile: ./Dockerfile.backend
+    ports:
+      - '5004:8080'
+    restart: on-failure
+    volumes:
+      - .:/usr/src/app
