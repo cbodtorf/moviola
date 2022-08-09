@@ -1,6 +1,4 @@
-import {
-  Highlight,
-} from 'react-instantsearch-hooks-web';
+import { Highlight } from 'react-instantsearch-hooks-web';
 import {
   Box,
   Badge,
@@ -60,6 +58,7 @@ export function Hit(props) {
           </Box>
 
           <Box
+            data-title={hit.title}
             mt="1"
             fontWeight="semibold"
             as="h4"

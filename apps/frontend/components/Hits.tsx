@@ -20,7 +20,7 @@ export function Hits({ hitComponent: HitComponent, ...props }: HitsProps) {
   const { hits, sendEvent } = useHits(props);
 
   return (
-    <Stack w="100%">
+    <Stack w="100%" data-cy="Hits">
       {hits.map((hit, i) => (
         <StackItem key={hit.objectID}>
           <HitComponent hit={hit} sendEvent={sendEvent} />

@@ -8,13 +8,33 @@ import {
   Button
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
+import { debounce } from 'lodash';
+import { useRef, useEffect } from 'react';
 
 /**
  * @description Search input for handling query results
  * https://www.algolia.com/doc/api-reference/widgets/search-box/react-hooks/#hook
  */
 export function SearchBox(props: UseSearchBoxProps) {
-  const { query, refine, clear } = useSearchBox(props);
+  const { refine, clear } = useSearchBox(props);
+
+  // Make sure we debounce our search to make a better experience
+  const debouncedSearch = useRef(
+    debounce(async (event: React.ChangeEvent<HTMLInputElement>) => {
+      const { value } = event.target;
+      Mixpanel.track('Search box query', {
+        query: value
+      });
+      refine(value);
+    }, 600)
+  ).current;
+
+  // Cancel search when component unmounts
+  useEffect(() => {
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [debouncedSearch]);
 
   return (
     <InputGroup size="md" mb="25">
@@ -22,14 +42,9 @@ export function SearchBox(props: UseSearchBoxProps) {
         <SearchIcon color="gray.300" />
       </InputLeftElement>
       <Input
-        value={query}
+        data-cy="SearchBox"
         placeholder="Search..."
-        onChange={(event) => {
-          Mixpanel.track('Search box query', {
-            query: event.target.value
-          });
-          refine(event.target.value);
-        }}
+        onChange={debouncedSearch}
       />
       <InputRightElement width="4.5rem">
         <Button
