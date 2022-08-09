@@ -113,7 +113,7 @@ export function DeleteAlert({ isOpen, onClose, hit }) {
                 ml={3}
                 colorScheme="red"
                 isLoading={isSubmitting}
-                loadingText='Deleting'
+                loadingText="Deleting"
                 onClick={() => {
                   setSubmitting(true);
                   Mixpanel.track('Delete Confirm', mixpanelAction);

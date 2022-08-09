@@ -292,7 +292,7 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
               colorScheme="teal"
               mr={3}
               isLoading={formik.isSubmitting}
-              loadingText='Submitting'
+              loadingText="Submitting"
               disabled={!(formik.isValid && formik.dirty)}
               onClick={handleExternalButtonClick}
             >
