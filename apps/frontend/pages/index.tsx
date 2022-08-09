@@ -24,7 +24,7 @@ export function Search() {
   const algoliaEnv = {
     appID: process.env.NEXT_PUBLIC_ALGOLIA_APP_ID,
     apiKey: process.env.NEXT_PUBLIC_ALGOLIA_PUBLIC_API_KEY,
-    indexName: process.env.NEXT_PUBLIC_INDEX_NAME,
+    indexName: process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME,
   }
 
   const { isOpen, onOpen, onClose } = useDisclosure();
