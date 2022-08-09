@@ -36,7 +36,7 @@ describe('schemas', () => {
     it('should validate image', async () => {
       const result = await movieUpdateSchema.isValid({
         ...movieUpdateSchema,
-        title: 'teset'
+        image: 43
       });
       expect(result).toEqual(false);
     });
