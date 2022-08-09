@@ -124,12 +124,12 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
       actions.setSubmitting(false);
       onClose();
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-    }, 500);
+    }, 1000);
 
     // Refresh Algolia InstantSearch
     setTimeout(() => {
       refresh();
-    }, 5000);
+    }, 4000);
   }
 
   const initialItems = [...genre];
@@ -291,6 +291,8 @@ export function ActionModal({ isOpen, onClose, hit, action }) {
             <Button
               colorScheme="teal"
               mr={3}
+              isLoading={formik.isSubmitting}
+              loadingText="Submitting"
               disabled={!(formik.isValid && formik.dirty)}
               onClick={handleExternalButtonClick}
             >

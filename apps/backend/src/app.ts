@@ -65,7 +65,7 @@ export default function build(opts: Record<string, unknown> = {}) {
       if (
         process.env.NODE_ENV === 'production' &&
         (typeof origin === 'undefined' ||
-          origin === (process.env.FRONTEND_HOST || ''))
+          origin === (process.env.frontendHost || ''))
       ) {
         cb(null, true);
         return;

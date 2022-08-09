@@ -18,15 +18,20 @@ The application is a set of micro-services including a front-end SPA and a back-
 
 #### Environment
 
-We have shared `./.env.example` file at the root with environment variables that
-will be shared between the _frontend_ and _backend_ applications.
-
-There is also a `./apps/backend/.env.example` file with sensitive environment variables specific to the backend application. We don't want to expose these to the frontend.
+Each app has a `./.env.example` file at the root with environment variables for that given service.
 
 You can create a `./apps/frontend/.env.test` file with specific environment variables for testing in case we want to use different credentials.
 
 1. Copy each `.env.example` and rename it to `.env`
-2. Set the environment variables `NEXT_PUBLIC_ALGOLIA_APP_ID`, `NEXT_PUBLIC_ALGOLIA_ADMIN_API_KEY`, `NEXT_PUBLIC_ALGOLIA_PUBLIC_API_KEY` and `NEXT_PUBLIC_ALGOLIA_INDEX_NAME` in the .env file. You can obtain those from the Algolia Dashboard.
+2. Frontend:
+
+- Set the environment variables `NEXT_PUBLIC_ALGOLIA_APP_ID`, `NEXT_PUBLIC_ALGOLIA_PUBLIC_API_KEY`, `NEXT_PUBLIC_ALGOLIA_INDEX_NAME` and `NEXT_PUBLIC_URL` in the .env file. You can obtain those from the Algolia Dashboard.
+- `NEXT_PUBLIC_URL` will be the backend url for our api, for dev it is http://localhost:3333, for production we point to our cloudrun url.
+
+3. Backend:
+
+- Set the environment variables `ALGOLIA_APP_ID`, `ALGOLIA_ADMIN_API_KEY`, `ALGOLIA_INDEX_NAME` and `FRONTEND_HOST` in the .env file. You can obtain those from the Algolia Dashboard.
+- `FRONTEND_HOST` will be the host name of where the frontend is hosted, in ourcase it is vercel. It is not needed for development.
 
 ### Local Development
 
@@ -65,8 +70,8 @@ Currently we have the project setup to deploy on the backend to Google Cloud Run
 
 ### Frontend
 
-- Setup [Vercel](hhttps://nextjs.org/docs)
-- Setup [deploy hooks](hhttps://vercel.com/docs/concepts/git/deploy-hooks)
+- Setup [Vercel](https://nextjs.org/docs)
+- Setup [deploy hooks](https://vercel.com/docs/concepts/git/deploy-hooks)
   - Build command
     - `npx nx build frontend --prod`
   - Output Directory
@@ -77,10 +82,10 @@ Currently we have the project setup to deploy on the backend to Google Cloud Run
     - `git diff HEAD^ HEAD --quiet ./apps/frontend/`
   - Add environment variables
   ```sh
-    NEXT_PUBLINEXT_PUBLIC_ALGOLIA_APP_ID
-    NEXT_PUBLINEXT_PUBLIC_ALGOLIA_PUBLIC_API_KEY
-    NEXT_PUBLINEXT_PUBLIC_ALGOLIA_INDEX_NAME
-    NEXT_PUBLINEXT_PUBLIC_URL # should point to backend
+    NEXT_PUBLIC_ALGOLIA_APP_ID
+    NEXT_PUBLIC_ALGOLIA_PUBLIC_API_KEY
+    NEXT_PUBLIC_ALGOLIA_INDEX_NAME
+    NEXT_PUBLIC_URL # should point to backend
   ```
 
 ### Backend
@@ -94,9 +99,9 @@ Currently we have the project setup to deploy on the backend to Google Cloud Run
   - Edit Image name: `gcr.io/moviola-358701/github.com/cbodtorf/moviola-backend:$COMMIT_SHA`
   - Add environment variables
   ```sh
-    NNEXT_PUBLIC_ALGOLIA_APP_ID
-    NNEXT_PUBLIC_ALGOLIA_ADMIN_API_KEY
-    NNEXT_PUBLIC_ALGOLIA_INDEX_NAME
+    ALGOLIA_APP_ID
+    ALGOLIA_ADMIN_API_KEY
+    ALGOLIA_INDEX_NAME
     FRONTEND_HOST # should point to frontend hostname
   ```
 

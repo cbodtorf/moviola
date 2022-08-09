@@ -8,7 +8,7 @@ import {
   Button,
   useToast
 } from '@chakra-ui/react';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useInstantSearch } from 'react-instantsearch-hooks-web';
 import { Mixpanel } from '../util/mixpanel';
 import ApiClient from '../util/api-client';
@@ -29,6 +29,7 @@ export function DeleteAlert({ isOpen, onClose, hit }) {
   const { refresh } = useInstantSearch();
   const toast = useToast();
   const cancelRef = useRef();
+  const [isSubmitting, setSubmitting] = useState(false);
 
   const mixpanelAction = {
     action: 'delete',
@@ -68,13 +69,14 @@ export function DeleteAlert({ isOpen, onClose, hit }) {
     }
 
     setTimeout(() => {
+      setSubmitting(false);
       onClose();
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-    }, 500);
+    }, 1000);
 
     setTimeout(() => {
       refresh();
-    }, 5000);
+    }, 4000);
   }
 
   return (
@@ -110,7 +112,10 @@ export function DeleteAlert({ isOpen, onClose, hit }) {
               <Button
                 ml={3}
                 colorScheme="red"
+                isLoading={isSubmitting}
+                loadingText="Deleting"
                 onClick={() => {
+                  setSubmitting(true);
                   Mixpanel.track('Delete Confirm', mixpanelAction);
                   handleDelete();
                 }}
