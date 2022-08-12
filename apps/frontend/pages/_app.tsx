@@ -1,7 +1,30 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { StepsStyleConfig } from 'chakra-ui-steps';
+import { CookiesProvider } from 'react-cookie';
 import './styles.css';
+
+// Customize Stepper styles
+// https://github.com/jeanverster/chakra-ui-steps#custom-styles
+const CustomSteps = {
+  ...StepsStyleConfig,
+  baseStyle: (props) => {
+    return {
+      ...StepsStyleConfig.baseStyle(props),
+      iconLabel: {
+        ...StepsStyleConfig.baseStyle(props).iconLabel,
+        fontSize: '10px'
+      }
+    };
+  }
+};
+
+const theme = extendTheme({
+  components: {
+    Steps: CustomSteps
+  }
+});
 
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
@@ -27,11 +50,13 @@ function CustomApp({ Component, pageProps }: AppProps) {
         />
         <link rel="manifest" href="/site.webmanifest" />
       </Head>
-      <ChakraProvider>
-        <main className="app">
-          <Component {...pageProps} />
-        </main>
-      </ChakraProvider>
+      <CookiesProvider>
+        <ChakraProvider theme={theme}>
+          <main className="app">
+            <Component {...pageProps} />
+          </main>
+        </ChakraProvider>
+      </CookiesProvider>
     </>
   );
 }

@@ -9,10 +9,14 @@ mixpanel.init('189877e253ddd0c949c558b43f71b407', {
 
 /**
  * @description A small wrapper for mixpanel sdk
+ * https://developer.mixpanel.com/docs/javascript-full-api-reference
  */
 export const Mixpanel = {
   identify: (id: string) => {
     mixpanel.identify(id);
+  },
+  getDistinct: () => {
+    return mixpanel.get_distinct_id();
   },
   alias: (id: string) => {
     mixpanel.alias(id);

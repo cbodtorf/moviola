@@ -1,12 +1,7 @@
 import algoliasearch from 'algoliasearch/lite';
 import { InstantSearch, Configure } from 'react-instantsearch-hooks-web';
 import { useEffect } from 'react';
-import { Mixpanel } from '../util/mixpanel';
-import { SearchBox as SearchBoxCustom } from '../components/SearchBox';
-import { Pagination as PaginationCustom } from '../components/Pagination';
-import { Hits as HitsCustom } from '../components/Hits';
-import { Hit } from '../components/Hit';
-import { RefinementDrawer } from '../components/RefinementDrawer';
+import { useCookies } from 'react-cookie';
 import {
   Button,
   Center,
@@ -18,14 +13,38 @@ import {
   Show,
   useDisclosure
 } from '@chakra-ui/react';
+import { Mixpanel } from '../util/mixpanel';
+import { SearchBox as SearchBoxCustom } from '../components/SearchBox';
+import { Pagination as PaginationCustom } from '../components/Pagination';
+import { Hits as HitsCustom } from '../components/Hits';
+import { Hit } from '../components/Hit';
+import { RefinementDrawer } from '../components/RefinementDrawer';
 import FilterIcon from '../components/FilterIcon';
 import RefinementAccordian from '../components/RefinementAccordian';
 import AlgoliaErrorToast from '../components/AlgoliaErrorToast';
+import ExplainerModal from '../components/ExplainerModal';
 
 export function Search() {
+  const {
+    isOpen: isDrawerOpen,
+    onOpen: onDrawerOpen,
+    onClose: onDrawerClose
+  } = useDisclosure();
+  const {
+    isOpen: isExplainerOpen,
+    onOpen: onExplainerOpen,
+    onClose: onExplainerClose
+  } = useDisclosure();
+  const [cookies, setCookie] = useCookies(['moviola']);
+
   useEffect(() => {
+    // Only show explainer modal if cookie is not set for first time visitors.
+    if (!cookies.moviola) {
+      onExplainerOpen();
+    }
+
     Mixpanel.track('Loaded Search');
-  }, []);
+  }, [onExplainerOpen, cookies]);
 
   // Test environment comes in differently than dev.
   const algoliaEnv = {
@@ -34,7 +53,6 @@ export function Search() {
     indexName: process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME
   };
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const searchClient = algoliasearch(algoliaEnv.appID, algoliaEnv.apiKey);
 
   const templateAreaMobile = `"header header"
@@ -51,7 +69,14 @@ export function Search() {
       stalledSearchDelay={200}
     >
       <AlgoliaErrorToast />
+      <ExplainerModal
+        isOpen={isExplainerOpen}
+        onClose={onExplainerClose}
+        setCookie={setCookie}
+      />
+
       <Configure hitsPerPage={8} />
+
       <Grid
         templateAreas={[
           templateAreaMobile,
@@ -91,17 +116,18 @@ export function Search() {
               colorScheme="teal"
               onClick={() => {
                 Mixpanel.track('Mobile Filter Drawer Open');
-                onOpen();
+                onDrawerOpen();
               }}
               mb="5"
             >
               Refine
             </Button>
-            <RefinementDrawer isOpen={isOpen} onClose={onClose} />
+            <RefinementDrawer isOpen={isDrawerOpen} onClose={onDrawerClose} />
           </Hide>
 
           <HitsCustom hitComponent={Hit} />
         </GridItem>
+
         <GridItem p="5" area={'footer'}>
           <Center pb="10">
             <PaginationCustom />
