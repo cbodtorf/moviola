@@ -45,7 +45,11 @@ export function Search() {
                                 "nav footer"`;
 
   return (
-    <InstantSearch searchClient={searchClient} indexName={algoliaEnv.indexName}>
+    <InstantSearch
+      searchClient={searchClient}
+      indexName={algoliaEnv.indexName}
+      stalledSearchDelay={200}
+    >
       <AlgoliaErrorToast />
       <Configure hitsPerPage={8} />
       <Grid

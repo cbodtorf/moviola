@@ -5,22 +5,26 @@ import {
   Input,
   InputLeftElement,
   InputRightElement,
-  Button
+  Button,
+  Progress
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 import { debounce } from 'lodash';
-import { useRef, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
+import styles from './searchbox.module.scss';
 
 /**
  * @description Search input for handling query results
  * https://www.algolia.com/doc/api-reference/widgets/search-box/react-hooks/#hook
  */
 export function SearchBox(props: UseSearchBoxProps) {
-  const { refine, clear } = useSearchBox(props);
+  const { refine, clear, isSearchStalled } = useSearchBox(props);
+  const [isSearching, setSearching] = useState(false);
 
   // Make sure we debounce our search to make a better experience
   const debouncedSearch = useRef(
     debounce(async (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSearching(false);
       const { value } = event.target;
       Mixpanel.track('Search box query', {
         query: value
@@ -37,29 +41,40 @@ export function SearchBox(props: UseSearchBoxProps) {
   }, [debouncedSearch]);
 
   return (
-    <InputGroup size="md" mb="25">
-      <InputLeftElement pointerEvents="none">
-        <SearchIcon color="gray.300" />
-      </InputLeftElement>
-      <Input
-        data-cy="SearchBox"
-        placeholder="Search..."
-        onChange={debouncedSearch}
+    <>
+      <Progress
+        className={styles['progress-bar']}
+        colorScheme="teal"
+        size="xs"
+        isIndeterminate={isSearching || isSearchStalled}
       />
-      <InputRightElement width="4.5rem">
-        <Button
-          h="1.75rem"
-          size="sm"
-          colorScheme="teal"
-          onClick={() => {
-            Mixpanel.track('Clear search box');
-            clear();
+      <InputGroup size="md" mb="25">
+        <InputLeftElement pointerEvents="none">
+          <SearchIcon color="gray.300" />
+        </InputLeftElement>
+        <Input
+          data-cy="SearchBox"
+          placeholder="Search..."
+          onChange={(event) => {
+            setSearching(true);
+            return debouncedSearch(event);
           }}
-        >
-          Clear
-        </Button>
-      </InputRightElement>
-    </InputGroup>
+        />
+        <InputRightElement width="4.5rem">
+          <Button
+            h="1.75rem"
+            size="sm"
+            colorScheme="teal"
+            onClick={() => {
+              Mixpanel.track('Clear search box');
+              clear();
+            }}
+          >
+            Clear
+          </Button>
+        </InputRightElement>
+      </InputGroup>
+    </>
   );
 }
 export default SearchBox;
