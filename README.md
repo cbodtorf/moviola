@@ -173,8 +173,6 @@ The frontend App uses Mixpanel to collect data about certain events. This way we
     - [x] DELETE - removes movie from index
       - [x] Create route
     - [x] Connect to Algolia
-  - [ ] Use :uuid for PUT/DELETE url param
-  - [ ] Update response to be uuid
 - [x] Frontend
   - [x] Search Page
     - [x] Search Component
@@ -224,6 +222,8 @@ The frontend App uses Mixpanel to collect data about certain events. This way we
   - [ ] Users
   - [ ] Authenticated Routes
   - [ ] Add traditional DB before indexing to Algolia
+  - [ ] Use :uuid for PUT/DELETE url param
+  - [ ] Update response to be uuid
 - [ ] Frontend
   - [ ] Skeleton Component Loading States
   - [ ] Login Page
