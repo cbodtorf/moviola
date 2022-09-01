@@ -31,9 +31,6 @@ COPY --from=build /usr/src/app/dist/apps/backend .
 COPY --from=build /usr/src/app/libs/ ./libs/
 COPY --from=base /usr/src/app/node_modules ./node_modules
 
-# dependencies that fastify needs
-# RUN yarn add reflect-metadata tslib rxjs
-
 # --- --- ---
 
 # Run the web service on container startup.
